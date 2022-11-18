@@ -15,11 +15,11 @@ dbconfig = {
     "user" : "root",
     "password" : "",
     "host" : "localhost",
-    "database" : "stage2",
+    "database" : "taipei_day_trip",
 }
 # create connection pool
 connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "stage2_pool",
+    pool_name = "taipei_pool",
     pool_size = 5,
     pool_reset_session = True,
     **dbconfig
@@ -56,7 +56,7 @@ def attractions():
 			page = int(request.args.get("page"))
 			offset = page * limit
 			if page < amount_page:
-				query = ("SELECT id, name, description, address, transport, mrt, lat, lng FROM attraction ORDER BY id LIMIT %s OFFSET %s")
+				query = ("SELECT id, name, description, address, transport, mrt, lat, lng, category FROM attraction ORDER BY id LIMIT %s OFFSET %s")
 				value = (limit, offset)
 				mycursor.execute(query, value)
 				results = mycursor.fetchall()
@@ -70,14 +70,14 @@ def attractions():
 					for image in images:
 						result_image.append(image[0])
 					# category
-					category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
-					mycursor.execute(category_query, (result[0],))
-					result_category = mycursor.fetchone()
+					# category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
+					# mycursor.execute(category_query, (result[0],))
+					# result_category = mycursor.fetchone()
 					# 建立 response data
 					data = {
 						"id" : result[0],
 						"name" : result[1],
-						"category" : result_category[0],
+						"category" : result[8],
 						"description" : result[2],
 						"address" : result[3],
 						"transport" : result[4],
@@ -108,7 +108,7 @@ def attractions():
 		else:
 			connection_object = connection_pool.get_connection()
 			mycursor = connection_object.cursor()
-			query = ("SELECT count(attraction.id) FROM attraction INNER JOIN category on attraction.category_id = category.id WHERE attraction.name like %s or category.category = %s")
+			query = ("SELECT count(id) FROM attraction WHERE name like %s or category = %s")
 			value = ('%' + keyword + '%', keyword)
 			mycursor.execute(query, value)
 			id = mycursor.fetchone()
@@ -117,8 +117,8 @@ def attractions():
 			amount_page = int(amount_id / limit) + 1
 			page = int(request.args.get("page"))
 			offset = page * limit
-			if page < amount_page:
-				query = ("SELECT a.id, a.name, a.description, a.address, a.transport, a.mrt, a.lat, a.lng FROM attraction AS a INNER JOIN category on a.category_id = category.id WHERE a.name like %s or category.category = %s ORDER BY a.id LIMIT %s OFFSET %s")
+			if amount_id != 0 or page < amount_page:
+				query = ("SELECT id, name, description, address, transport, mrt, lat, lng, category FROM attraction WHERE name like %s or category = %s ORDER BY id LIMIT %s OFFSET %s")
 				value = ('%' + keyword + '%', keyword, limit, offset)
 				mycursor.execute(query, value)
 				results = mycursor.fetchall()
@@ -132,14 +132,14 @@ def attractions():
 					for image in images:
 						result_image.append(image[0])
 					# category
-					category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
-					mycursor.execute(category_query, (result[0],))
-					result_category = mycursor.fetchone()
+					# category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
+					# mycursor.execute(category_query, (result[0],))
+					# result_category = mycursor.fetchone()
 					# 建立 response data
 					data = {
 						"id" : result[0],
 						"name" : result[1],
-						"category" : result_category[0],
+						"category" : result[8],
 						"description" : result[2],
 						"address" : result[3],
 						"transport" : result[4],
@@ -150,7 +150,7 @@ def attractions():
 					}
 					datas.append(data)
 
-				if page +1 == amount_page:
+				if amount_page <= page +1 :
 					return jsonify({
 								"nextpage" : None,
 								"data" : datas
@@ -166,12 +166,13 @@ def attractions():
 							"data" : "REQUEST NOT FUND",             
 						}),400
 
-
-	except: 
-			return jsonify({
-						"error": True,
-						"data" : "INTERNAL_SERVER_ERROR",             
-					}),500	
+	except mysql.connector.Error as err:
+		print("Unexcepted Error", err)
+	# except: 
+	# 		return jsonify({
+	# 					"error": True,
+	# 					"data" : "INTERNAL_SERVER_ERROR",             
+	# 				}),500	
 	finally:
 		mycursor.close()
 		connection_object.close()
@@ -197,12 +198,8 @@ def attractionId(attractionId):
 		result_image = []
 		for image in images:
 			result_image.append(image[0])
-		# category
-		category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
-		mycursor.execute(category_query, (attractionId,))
-		result_category = mycursor.fetchone()
 		# else
-		query = ("SELECT name, description, address, transport, mrt, lat, lng FROM attraction WHERE id = %s")
+		query = ("SELECT name, description, address, transport, mrt, lat, lng, category FROM attraction WHERE id = %s")
 		mycursor.execute(query, (attractionId,))
 		result = mycursor.fetchone()
 		if attractionId not in result_id:
@@ -215,7 +212,7 @@ def attractionId(attractionId):
 						"data" : {
 							"id" : attractionId,
 							"name" : result[0],
-							"category" : result_category[0],
+							"category" : result[7],
 							"description" : result[1],
 							"address" : result[2],
 							"transport" : result[3],
@@ -243,14 +240,14 @@ def categories():
 	try:
 		connection_object = connection_pool.get_connection()
 		mycursor = connection_object.cursor()
-		mycursor.execute("SELECT category FROM category")
+		mycursor.execute("SELECT category FROM attraction GROUP BY category")
 		result = mycursor.fetchall()
 		categories = []
 		for i in result:
 			categories.append(i[0])
 		return jsonify({
                         "data" : categories              
-                    })
+                    })		
 	except: 
 			return jsonify({
 						"error": True,

@@ -13,43 +13,15 @@ dbconfig = {
     "user" : "root",
     "password" : "",
     "host" : "localhost",
-    "database" : "stage2",
+    "database" : "taipei_day_trip",
 }
 # create connection pool
 connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "stage2_pool",
+    pool_name = "taipei_pool",
     pool_size = 5,
     pool_reset_session = True,
     **dbconfig
 )
-
-# 抓出九大類景點
-types = set()
-for data in datas:
-    type = data["CAT"]
-    types.add(type)
-
-ans = {}
-i = 1
-for type in types:
-    ans[type] = i
-    i += 1 
-
-def category():
-    try:
-        connection_object = connection_pool.get_connection()
-        mycursor = connection_object.cursor()
-        # 回傳db 
-        for i in types:
-            query = "INSERT INTO category (category) VALUES (%s)"
-            value = i
-            mycursor.execute(query, (value,))
-            connection_object.commit()
-    except mysql.connector.Error as err:
-        print("Unexcepted Error", err)
-    finally:
-        mycursor.close()
-        connection_object.close()
 
 def attraction():
     try:
@@ -65,10 +37,9 @@ def attraction():
             lat = data["latitude"]
             lng = data["longitude"]
             CAT = data["CAT"]
-            category_id = ans[CAT]
             # 回傳db 
-            query = "INSERT INTO attraction (id, name, description, address, transport, MRT, lat, lng, category_id) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            value = (id, name, description, address, transport, MRT, lat, lng, category_id)
+            query = "INSERT INTO attraction (id, name, description, address, transport, MRT, lat, lng, category) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            value = (id, name, description, address, transport, MRT, lat, lng, CAT)
             mycursor.execute(query, value)
             connection_object.commit()
 
@@ -109,6 +80,5 @@ def image():
 
 
 # attraction()
-# category()
 # image()
 
