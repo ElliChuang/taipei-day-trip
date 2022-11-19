@@ -73,10 +73,6 @@ def attractions():
 					result_image = []
 					for image in images:
 						result_image.append(image[0])
-					# category
-					# category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
-					# mycursor.execute(category_query, (result[0],))
-					# result_category = mycursor.fetchone()
 					# 建立 response data
 					data = {
 						"id" : result[0],
@@ -135,11 +131,6 @@ def attractions():
 					result_image = []
 					for image in images:
 						result_image.append(image[0])
-					# category
-					# category_query = ("SELECT category.category FROM category INNER JOIN attraction on attraction.category_id = category.id WHERE attraction.id = %s")
-					# mycursor.execute(category_query, (result[0],))
-					# result_category = mycursor.fetchone()
-					# 建立 response data
 					data = {
 						"id" : result[0],
 						"name" : result[1],
@@ -170,13 +161,11 @@ def attractions():
 							"data" : "REQUEST NOT FUND",             
 						}),400
 
-	except mysql.connector.Error as err:
-		print("Unexcepted Error", err)
-	# except: 
-	# 		return jsonify({
-	# 					"error": True,
-	# 					"data" : "INTERNAL_SERVER_ERROR",             
-	# 				}),500	
+	except: 
+			return jsonify({
+						"error": True,
+						"data" : "INTERNAL_SERVER_ERROR",             
+					}),500	
 	finally:
 		mycursor.close()
 		connection_object.close()
@@ -223,7 +212,7 @@ def attractionId(attractionId):
 							"mrt" : result[4],
 							"lat" : result[5],
 							"lng" : result[6],
-							"images" : result_image              
+							"images" : result_image            
 							}
 						})
 
