@@ -3,6 +3,11 @@ import mysql.connector
 from mysql.connector import pooling 
 from mysql.connector import errorcode
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+db_pw = os.environ.get("DB_PW")
 
 json_data = open("data/taipei-attractions.json").read()
 json_obj = json.loads(json_data)
@@ -11,7 +16,7 @@ datas = json_obj["result"]["results"]
 # 建立db
 dbconfig = {
     "user" : "root",
-    "password" : "",
+    "password" : db_pw,
     "host" : "localhost",
     "database" : "taipei_day_trip",
 }

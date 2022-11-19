@@ -3,7 +3,11 @@ from mysql.connector import errorcode
 import mysql.connector 
 from mysql.connector import pooling 
 import json
-# from werkzeug.exceptions import HTTPException
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+db_pw = os.environ.get("DB_PW")
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -13,7 +17,7 @@ app.config["JSON_SORT_KEYS"] = False
 # 建立db
 dbconfig = {
     "user" : "root",
-    "password" : "",
+    "password" : db_pw,
     "host" : "localhost",
     "database" : "taipei_day_trip",
 }
