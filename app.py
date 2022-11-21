@@ -60,20 +60,21 @@ def attractions():
 			page = int(request.args.get("page"))
 			offset = page * limit
 			if page < amount_page:
-				query = ("SELECT id, name, description, address, transport, mrt, lat, lng, category FROM attraction ORDER BY id LIMIT %s OFFSET %s")
+				query = (
+					"SELECT a.id, a.name, a.description, a.address, a.transport, a.mrt, a.lat, a.lng, a.category, GROUP_CONCAT(image.URL) "
+					"FROM attraction AS a "
+					"INNER JOIN image on a.id = image.attraction_id "
+					"GROUP BY a.id "
+					"ORDER BY a.id "
+					"LIMIT %s OFFSET %s"
+					)
 				value = (limit, offset)
 				mycursor.execute(query, value)
 				results = mycursor.fetchall()
+				# 建立 response data
 				datas = []
 				for result in results:
-					# image
-					image_query = ("SELECT URL FROM image WHERE attraction_id = %s")
-					mycursor.execute(image_query, (result[0],))
-					images = mycursor.fetchall()
-					result_image = []
-					for image in images:
-						result_image.append(image[0])
-					# 建立 response data
+					images = result[9].split(",")
 					data = {
 						"id" : result[0],
 						"name" : result[1],
@@ -84,11 +85,11 @@ def attractions():
 						"mrt" : result[5],
 						"lat" : result[6],
 						"lng" : result[7], 
-						"images" : result_image,       
+						"images" : images,       
 					}
 					datas.append(data)
 
-				if page +1 == amount_page:
+				if  amount_page <= page +1: 
 					return jsonify({
 								"nextpage" : None,
 								"data" : datas
@@ -118,19 +119,22 @@ def attractions():
 			page = int(request.args.get("page"))
 			offset = page * limit
 			if amount_id != 0 or page < amount_page:
-				query = ("SELECT id, name, description, address, transport, mrt, lat, lng, category FROM attraction WHERE name like %s or category = %s ORDER BY id LIMIT %s OFFSET %s")
+				query = (
+					"SELECT a.id, a.name, a.description, a.address, a.transport, a.mrt, a.lat, a.lng, a.category, GROUP_CONCAT(image.URL) " 
+					"FROM attraction AS a "
+					"INNER JOIN image on a.id = image.attraction_id " 
+					"WHERE name like %s or category = %s "
+					"GROUP BY a.id "
+					"ORDER BY a.id " 
+					"LIMIT %s OFFSET %s"
+					)
 				value = ('%' + keyword + '%', keyword, limit, offset)
 				mycursor.execute(query, value)
 				results = mycursor.fetchall()
+				# response data
 				datas = []
 				for result in results:
-					# image
-					image_query = ("SELECT URL FROM image WHERE attraction_id = %s")
-					mycursor.execute(image_query, (result[0],))
-					images = mycursor.fetchall()
-					result_image = []
-					for image in images:
-						result_image.append(image[0])
+					images = result[9].split(",")
 					data = {
 						"id" : result[0],
 						"name" : result[1],
@@ -141,7 +145,7 @@ def attractions():
 						"mrt" : result[5],
 						"lat" : result[6],
 						"lng" : result[7], 
-						"images" : result_image,       
+						"images" : images      
 					}
 					datas.append(data)
 
@@ -184,17 +188,17 @@ def attractionId(attractionId):
 		result_id = []
 		for id in ids:
 			result_id.append(id[0])
-		# image
-		image_query = ("SELECT URL FROM image WHERE attraction_id = %s")
-		mycursor.execute(image_query, (attractionId,))
-		images = mycursor.fetchall()
-		result_image = []
-		for image in images:
-			result_image.append(image[0])
-		# else
-		query = ("SELECT name, description, address, transport, mrt, lat, lng, category FROM attraction WHERE id = %s")
+		# response data
+		query = (
+			"SELECT a.name, a.description, a.address, a.transport, a.mrt, a.lat, a.lng, a.category, GROUP_CONCAT(image.URL) " 
+			"FROM attraction AS a " 
+			"INNER JOIN image on a.id = image.attraction_id " 
+			"WHERE a.id = %s " 
+			"GROUP BY a.id"
+			)
 		mycursor.execute(query, (attractionId,))
 		result = mycursor.fetchone()
+		images = result[8].split(",")
 		if attractionId not in result_id:
 			return jsonify({
 						"error": True,
@@ -212,10 +216,9 @@ def attractionId(attractionId):
 							"mrt" : result[4],
 							"lat" : result[5],
 							"lng" : result[6],
-							"images" : result_image            
+							"images" : images        
 							}
 						})
-
 	except:
 			return jsonify({
 						"error": True,
