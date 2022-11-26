@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 db_pw = os.environ.get("DB_PW")
 
-app=Flask(__name__)
+app=Flask(__name__, static_folder="static", static_url_path="/static")
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 app.config["JSON_SORT_KEYS"] = False
