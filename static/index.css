@@ -4,6 +4,12 @@
     margin:0;
     padding:0;
 }
+html, body{
+    height: 100%;
+}
+.content{
+    min-height: calc(100% - 104px);
+}
 .header{
     position:sticky;
     top:0;
@@ -100,7 +106,7 @@
     height:30px;
     background-position:center;
 }
-.searchBar{
+.searchBarlist{
     position:absolute;
     z-index:1;
     width:400px;
