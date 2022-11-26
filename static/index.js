@@ -34,7 +34,7 @@ function getData() {
     console.log("fetch some JSON data");
     isLoading = true;
     console.log("isLoading:", isLoading)
-    fetch(`http://127.0.0.1:3000/api/attractions?page=${page}&keyword=${keyword}`)
+    fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
         .then((response) => {
             if(response.ok){
                 return response.json();
@@ -135,7 +135,7 @@ function removeDiv(){
 
 
 // 抓取分類資料
-let categoryUrl = "http://127.0.0.1:3000/api/categories";
+let categoryUrl = "/api/categories";
 fetch(categoryUrl).then(response => {
     if(response.ok){
         return response.json();
