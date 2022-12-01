@@ -1,0 +1,71 @@
+<!DOCTYPE html> 
+<html>
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8"/>   
+        <title>Taipei Attraction</title>
+        <link rel="stylesheet" type="text/css" href="/static/attraction.css" />
+    </head>
+    <body>
+        <div class="content">
+            <div class="header">
+                <div class="frame">
+                    <div class="left">台北一日遊</div>
+                    <div class="right">
+                        <div class="item1">預定行程</div>
+                        <div class="item2">登入/註冊</div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="photo">
+                    <!-- <img class="img"> -->
+                    <img class="prev" onclick="plusSlides(-1)" src="/static/image/btn_leftArrow.png"></img>
+                    <img class="next" onclick="plusSlides(1)" src="/static/image/btn_rightArrow.png"></img>
+                    <div class="dots">
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="name"></div>
+                    <div class="categoryAndMrt"></div>
+                    <div class="order">
+                        <div class="title">訂購導覽行程</div>
+                        <div class="subtitle">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+                        <div class="bookdate">
+                            <lable class="date">選擇日期：</lable>
+                            <input type="date"></input>
+                        </div>
+                        <div class="time">
+                            <div class="timeTitle">選擇時間：</div>
+                            <label class="radio" onclick="morning()">
+                                <input type="radio" name="radio" checked="checked">
+                                <div class="circle"></div>
+                                <div class="period">上班天</div>
+                            </label>
+                            <label onclick="afternoon()">
+                                <input type="radio" name="radio" >
+                                <div class="circle"></div>
+                                <div class="period">下班天</div>
+                            </label>
+                        </div>
+                        <div class="expense">
+                            <div class="expenseTitle">導覽費用：</div>
+                            <div class="morningPrice">新台幣 2000元</div>
+                            <div class="afternoonPrice" style="display:none">新台幣 2500元</div>
+                        </div>
+                        <div class="submit">開始預定行程</div>
+                    </div>
+                </div>    
+            </div> 
+            <div class="information">
+                <p class="description"></p>
+                <div class="addressTitle">景點地址：</div>
+                <p class="address"></p>
+                <div class="transporationTitle">交通方式：</div>
+                <p class="transport"></p>
+            </div>
+        </div> 
+        <div class="footer"></div>
+        <script src="/static/attraction.js"></script>
+    </body>
+</html>

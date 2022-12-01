@@ -21,7 +21,7 @@ function Intersect(entries) {
         if (entry.isIntersecting && isLoading === false && page !== null){
             console.log(`即將載入第${page}頁`);
             console.warn("something is intersecting with the viewport");
-            getData();
+            getData(showData);
         }else if(!entry.isIntersecting && page === null){
             observer.unobserve(entry.target);
             console.log("closed");
@@ -30,7 +30,7 @@ function Intersect(entries) {
 } 
 
 
-function getData() {    
+function getData(callback) {    
     console.log("fetch some JSON data");
     isLoading = true;
     console.log("isLoading:", isLoading)
@@ -48,19 +48,23 @@ function getData() {
                 observer.unobserve(target);
                 console.log("closed");
             }else{
-                showData(datas);
+                callback(datas);
             }
         })
         .catch((error) => console.log(error))
     }
 
-getData()
+getData(showData)
 
 function showData(datas){
     let dataLength = datas.data.length;
     for(i = 0; i < dataLength; i += 1){ 
         let teamDiv = document.createElement("div");
         teamDiv.className = "team";
+        let teamChildDiv = document.createElement("div");
+        teamChildDiv.className = "teamChild";
+        teamChildDiv.textContent = datas.data[i]['id'];
+        teamChildDiv.setAttribute("onclick", "showAttraction(this)");
         let photoDiv = document.createElement("div");
         photoDiv.className = "photo";
         let titleDiv = document.createElement("div");
@@ -72,6 +76,7 @@ function showData(datas){
         let categoryDiv = document.createElement("div");
         categoryDiv.className = "category";
         main.appendChild(teamDiv);
+        teamDiv.appendChild(teamChildDiv);
         teamDiv.appendChild(photoDiv);
         teamDiv.appendChild(titleDiv);
         teamDiv.appendChild(subtitleDiv);
@@ -111,7 +116,7 @@ submit.addEventListener("click", function keywordSearch(){
     page = 0;
     removeDiv();
     observer.observe(target)
-    getData();
+    getData(showData);
 })
 
 // 移除已建立的 div
@@ -147,10 +152,10 @@ fetch(categoryUrl).then(response => {
         let barDiv = document.createElement("div");
         searchBarlist.appendChild(barDiv);
         barDiv.className = "searchBartag";
-        barDiv.setAttribute("onclick", "select(this)");
         let category = document.createTextNode(datas.data[i]);
         let textCategory = category.cloneNode(true);
         barDiv.appendChild(textCategory);
+        barDiv.setAttribute("onclick", "select(this)");
     }
 }).catch((error) => console.log(error))
 
@@ -170,3 +175,8 @@ function show(elem){
     }
 }
 
+// 跳轉至指定景點介紹頁面 
+function showAttraction(elem){
+    let id = elem.textContent;
+    document.location.href = "/attraction/" + id 
+}
