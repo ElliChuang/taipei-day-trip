@@ -18,18 +18,18 @@ html, body{
 }
 .frame{
     display:flex;
-    margin-top:15px;
-    margin-bottom:10px;
     max-width:1200px;
     width:100%;
+    padding-top:10px;
+    padding-bottom:10px;
     margin:auto;
-
 }
 .left{
     display:flex;
     flex:none;
     width:150px;
     font-size:30px;
+    height:34px;
     color:#448899;
     font-weight:700;
     justify-content:flex-start;
@@ -40,12 +40,29 @@ html, body{
     flex:auto;
     justify-content:flex-end;
     align-items:center;
-    color:#666666;
 }
-.item{
+.item1{
+    display:flex;
     flex:none;
+    width:84px;
+    height:34px;
     font-size:16px;
-    margin-right:15px;
+    font-weight:500;
+    color:#666666;
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+}
+.item2{
+    display:flex;
+    flex:none;
+    width:91px;
+    height:34px;
+    font-size:16px;
+    font-weight:500;
+    color:#666666;
+    justify-content:center;
+    align-items:center;
 }
 .welcome{
     height:300px;
@@ -150,10 +167,20 @@ html, body{
 }
 .team{
     position:relative;
+    cursor:pointer; 
+}
+.team:hover{
+    opacity:0.8;
+}
+.teamChild{
+    position:absolute;
+    width:270px;
+    height:242px;
+    opacity:0;
 }
 .photo{
     width:270px;
-    height:197px; 
+    height:197px;
 }
 .img{
     width:100%;
@@ -223,6 +250,9 @@ html, body{
     .main{
         width:90%;
         grid-template-columns:1fr 1fr;
+    }
+    .teamChild{
+        width:100%;
     }
     .photo{
         width:100%;
