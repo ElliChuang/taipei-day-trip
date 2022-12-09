@@ -5,35 +5,31 @@
         <meta charset="utf-8"/>   
         <title>Taipei Day Trip</title>
         <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/view_of_login_signup.css" />
     </head>
     <body>
         <div class="content">
-            <div class="header">
-                <div class="frame">
-                    <div class="left">台北一日遊</div>
-                    <div class="right">
-                        <div class="item1">預定行程</div>
-                        <div class="item2">登入/註冊</div>
-                    </div>
-                </div>
-            </div>
+            <script src="/static/js/nav.js"></script>
             <div class="welcome">
                 <div class="describe">
-                    <div class="slogn1">輕鬆享受台北一日悠閒</div>
-                    <div class="slogn2">探索每個角落，體驗城市的深度旅遊行程</div>
+                    <div class="slogan1">輕鬆享受台北一日悠閒</div>
+                    <div class="slogan2">探索每個角落，體驗城市的深度旅遊行程</div>
                     <div class="search">
-                        <input type="text" placeholder="輸入景點名稱查詢" id="input"></input>
+                        <input type="text" placeholder="輸入景點名稱查詢" id="searchInput"></input>
                         <button type="submit" id="submit">
                             <img src="/static/image/icon_search.png">
                         </button>
                     </div>
-                    <div class="searchBarlist"></div>
+                    <div class="searchBarList"></div>
                 </div>
             </div>
-            <div class="main">
-            </div>
-        </div>    
-        <div class="footer"></div>
+            <main class="main">
+            </main>
+        </div> 
+        <script src="/static/js/view_of_login_signup.js"></script> 
+        <footer class="footer"></footer>
         <script src="/static/js/index.js"></script>
+        <script src="/static/js/auth.js"></script>
     </body>
 </html>
