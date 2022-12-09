@@ -83,7 +83,7 @@ def user_auth():
 					"id" : result[0],
 					"name" : result[1],
 					"email" : result[2],
-					'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=3)
+					'exp' : datetime.datetime.utcnow() + datetime.timedelta(days=7)
 				}
 				token = jwt.encode(payload, token_pw, algorithm="HS256")
 				session["token"] = token
