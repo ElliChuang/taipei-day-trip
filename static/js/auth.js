@@ -40,6 +40,11 @@ function goSignUp(){
     signUpMessage.innerText = "";
 }
 
+// 點擊nav title 回首頁
+function backToHomePage(){
+    window.location.href = "/";
+}
+
 // 註冊會員
 function signUp(){
     let url = "/api/user";
@@ -95,7 +100,7 @@ function memberLogin(){
     }).then(function(Data){
         console.log("會員登入:", Data);
         if(Data.ok){
-            window.location.href = "/"
+            location.reload();
         }else{
             loginMessage.innerText = Data.data; 
         } 
@@ -112,7 +117,7 @@ function memberLogout(){
     }).then(function(Data){
         console.log("會員登出:", Data);
         if(Data.ok){
-            window.location.href = "/"
+            location.reload();
         }
     })
 }

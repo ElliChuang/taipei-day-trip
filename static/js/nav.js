@@ -1,6 +1,6 @@
 header = '<nav class="header">\
             <div class="frame">\
-                <div class="left">台北一日遊</div>\
+                <div class="left" id="left" onclick="backToHomePage()">台北一日遊</div>\
                 <div class="right">\
                     <div class="item1">預定行程</div>\
                     <div class="item2" id="item2" onclick="goLogin()">登入/註冊</div>\
