@@ -10,63 +10,6 @@ html, body{
 .content{
     min-height: calc(100% - 104px);
 }
-.header{
-    position:sticky;
-    top:0;
-    background-color:white;
-    z-index:2;
-    border-bottom: 1px solid #E8E8E8;
-    margin-bottom:40px;
-}
-.frame{
-    display:flex;
-    max-width:1200px;
-    width:100%;
-    padding-top:10px;
-    padding-bottom:10px;
-    margin:auto;
-}
-.left{
-    display:flex;
-    flex:none;
-    width:150px;
-    height:34px;
-    font-size:30px;
-    color:#448899;
-    font-weight:700;
-    justify-content:flex-start;
-    align-items:center;
-}
-.right{
-    display:flex;
-    flex:auto;
-    justify-content:flex-end;
-    align-items:center;
-    
-}
-.item1{
-    display:flex;
-    flex:none;
-    width:84px;
-    height:34px;
-    font-size:16px;
-    font-weight:500;
-    color:#666666;
-    justify-content:center;
-    align-items:center;
-    padding:10px;
-}
-.item2{
-    display:flex;
-    flex:none;
-    width:91px;
-    height:34px;
-    font-size:16px;
-    font-weight:500;
-    color:#666666;
-    justify-content:center;
-    align-items:center;
-}
 .section{
     width:1200px;
     margin:auto;

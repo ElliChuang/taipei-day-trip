@@ -6,67 +6,14 @@
 }
 html, body{
     height: 100%;
+    position:relative;
 }
 .content{
     min-height: calc(100% - 104px);
 }
-.header{
-    position:sticky;
-    top:0;
-    background-color:white;
-    z-index:2;
-}
-.frame{
-    display:flex;
-    max-width:1200px;
-    width:100%;
-    padding-top:10px;
-    padding-bottom:10px;
-    margin:auto;
-}
-.left{
-    display:flex;
-    flex:none;
-    width:150px;
-    font-size:30px;
-    height:34px;
-    color:#448899;
-    font-weight:700;
-    justify-content:flex-start;
-    align-items:center;
-}
-.right{
-    display:flex;
-    flex:auto;
-    justify-content:flex-end;
-    align-items:center;
-}
-.item1{
-    display:flex;
-    flex:none;
-    width:84px;
-    height:34px;
-    font-size:16px;
-    font-weight:500;
-    color:#666666;
-    justify-content:center;
-    align-items:center;
-    padding:10px;
-}
-.item2{
-    display:flex;
-    flex:none;
-    width:91px;
-    height:34px;
-    font-size:16px;
-    font-weight:500;
-    color:#666666;
-    justify-content:center;
-    align-items:center;
-}
 .welcome{
-    height:300px;
-    margin-bottom:75px;
+    height:320px;
+    margin-bottom:55px;
     background-image:url(/static/image/welcome.png);
     background-position:center;
     background-size:cover;
@@ -80,13 +27,13 @@ html, body{
     margin:auto;
     position:relative;
 }
-.slogn1{
+.slogan1{
     font-size:28px;
     font-weight:700;
     color:#F8F8F8;
     margin-bottom:10px;
 }
-.slogn2{
+.slogan2{
     font-size:16px;
     font-weight:700;
     color:#F8F8F8;
@@ -123,7 +70,7 @@ html, body{
     height:30px;
     background-position:center;
 }
-.searchBarlist{
+.searchBarList{
     position:absolute;
     z-index:1;
     width:400px;
@@ -140,7 +87,7 @@ html, body{
     box-shadow: 0px 0px 20px #AABBCC;
     visibility: hidden;
 }
-.searchBartag{
+.searchBarTag{
     width:120px;
     height:40px;
     display:flex;
@@ -152,7 +99,7 @@ html, body{
     border-radius:5px;
     padding:15px 10px;  
 }
-.searchBartag:hover{
+.searchBarTag:hover{
     background-color:#E8E8E8;
 }
 .main{
@@ -240,6 +187,7 @@ html, body{
     background-position:center;
     background-size:cover;
 }
+
 @media(max-width:1200px){
     .frame{
         width:90%;
@@ -276,7 +224,7 @@ html, body{
         width:322px;
         padding-right:34px;
     }
-    .searchBartag{
+    .searchBarTag{
         width:96px;
     }
     .main{

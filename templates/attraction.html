@@ -5,21 +5,14 @@
         <meta charset="utf-8"/>   
         <title>Taipei Attraction</title>
         <link rel="stylesheet" type="text/css" href="/static/css/attraction.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/view_of_login_signup.css" />
     </head>
     <body>
         <div class="content">
-            <div class="header">
-                <div class="frame">
-                    <div class="left">台北一日遊</div>
-                    <div class="right">
-                        <div class="item1">預定行程</div>
-                        <div class="item2">登入/註冊</div>
-                    </div>
-                </div>
-            </div>
+            <script src="/static/js/nav.js"></script>
             <div class="section">
                 <div class="photo">
-                    <!-- <img class="img"> -->
                     <img class="prev" onclick="plusSlides(-1)" src="/static/image/btn_leftArrow.png"></img>
                     <img class="next" onclick="plusSlides(1)" src="/static/image/btn_rightArrow.png"></img>
                     <div class="dots">
@@ -32,7 +25,7 @@
                         <div class="title">訂購導覽行程</div>
                         <div class="subtitle">以此景點為中心的一日行程，帶您探索城市角落故事</div>
                         <div class="bookdate">
-                            <lable class="date">選擇日期：</lable>
+                            <label class="date">選擇日期：</label>
                             <input type="date"></input>
                         </div>
                         <div class="time">
@@ -64,8 +57,10 @@
                 <div class="transporationTitle">交通方式：</div>
                 <p class="transport"></p>
             </div>
-        </div> 
-        <div class="footer"></div>
+        </div>
+        <script src="/static/js/view_of_login_signup.js"></script> 
+        <footer class="footer"></footer>
         <script src="/static/js/attraction.js"></script>
+        <script src="/static/js/auth.js"></script>
     </body>
 </html>

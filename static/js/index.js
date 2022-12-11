@@ -1,5 +1,5 @@
-let searchBarlist = document.querySelector(".searchBarlist");
-let input= document.getElementById("input");
+let searchBarList = document.querySelector(".searchBarList");
+let searchInput= document.getElementById("searchInput");
 let submit = document.getElementById("submit");
 let main = document.querySelector(".main")
 let keyword = "";
@@ -112,7 +112,7 @@ function showData(datas){
 // 依關鍵字搜尋
 submit.addEventListener("click", function keywordSearch(){
     console.log("use search bar")
-    keyword = input.value;
+    keyword = searchInput.value;
     page = 0;
     removeDiv();
     observer.observe(target)
@@ -150,8 +150,8 @@ fetch(categoryUrl).then(response => {
 }).then(datas => {
     for(i=0; i < datas.data.length; i += 1){
         let barDiv = document.createElement("div");
-        searchBarlist.appendChild(barDiv);
-        barDiv.className = "searchBartag";
+        searchBarList.appendChild(barDiv);
+        barDiv.className = "searchBarTag";
         let category = document.createTextNode(datas.data[i]);
         let textCategory = category.cloneNode(true);
         barDiv.appendChild(textCategory);
@@ -162,16 +162,16 @@ fetch(categoryUrl).then(response => {
 // 將類別帶入 search bar
 function select(elem){  
     let selectData = elem.textContent;
-    input.value = selectData; 
+    searchInput.value = selectData; 
 }
 
 // 顯示or隱藏清單
 document.addEventListener("click", show);  //所有元件新增click事件
 function show(elem){
-    if(elem.target.id !== "input"){
-        searchBarlist.style.visibility="hidden";
+    if(elem.target.id !== "searchInput"){
+        searchBarList.style.visibility="hidden";
     }else{
-        searchBarlist.style.visibility="visible";
+        searchBarList.style.visibility="visible";
     }
 }
 
