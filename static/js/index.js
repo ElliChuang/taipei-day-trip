@@ -1,7 +1,7 @@
-let searchBarList = document.querySelector(".searchBarList");
-let searchInput= document.getElementById("searchInput");
-let submit = document.getElementById("submit");
-let main = document.querySelector(".main")
+const searchBarList = document.querySelector(".searchBarList");
+const searchInput= document.getElementById("searchInput");
+const submit = document.getElementById("submit");
+const main = document.querySelector(".main")
 let keyword = "";
 let page = 0;
 let isLoading = false;
@@ -13,27 +13,21 @@ let options = {
 };
 
 const observer = new IntersectionObserver(Intersect, options);
-let target = document.querySelector(".footer");
+const target = document.querySelector(".footer");
 observer.observe(target); 
 function Intersect(entries) {
-    console.log(entries);
     entries.forEach(entry =>{
         if (entry.isIntersecting && isLoading === false && page !== null){
-            console.log(`即將載入第${page}頁`);
-            console.warn("something is intersecting with the viewport");
             getData(showData);
         }else if(!entry.isIntersecting && page === null){
             observer.unobserve(entry.target);
-            console.log("closed");
         }
     })
 } 
 
 
 function getData(callback) {    
-    console.log("fetch some JSON data");
     isLoading = true;
-    console.log("isLoading:", isLoading)
     fetch(`/api/attractions?page=${page}&keyword=${keyword}`)
         .then((response) => {
             if(response.ok){
@@ -46,7 +40,6 @@ function getData(callback) {
             if (datas.data.length === 0){
                 main.innerText = "無篩選結果";
                 observer.unobserve(target);
-                console.log("closed");
             }else{
                 callback(datas);
             }
@@ -104,14 +97,11 @@ function showData(datas){
     }
     isLoading = false;
     page = datas.nextpage
-    console.log("isLoading:", isLoading);
-    console.log("下一頁",page)  
 }
 
 
 // 依關鍵字搜尋
 submit.addEventListener("click", function keywordSearch(){
-    console.log("use search bar")
     keyword = searchInput.value;
     page = 0;
     removeDiv();
@@ -127,7 +117,6 @@ function removeDiv(){
     let subtitleDiv = document.querySelectorAll(".subtitle");
     let MRTDiv = document.querySelectorAll(".MRT");
     let categoryDiv = document.querySelectorAll(".category");
-    console.log("team", teamDiv.length)
     for (i=0; i < teamDiv.length; i +=1 ){
         subtitleDiv[i].removeChild(MRTDiv[i]);
         subtitleDiv[i].removeChild(categoryDiv[i]);

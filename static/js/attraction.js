@@ -1,12 +1,16 @@
-let morningPrice = document.querySelector(".morningPrice");
-let afternoonPrice = document.querySelector(".afternoonPrice");
-let nameDiv = document.querySelector(".name");
-let categoryAndMrtDiv = document.querySelector(".categoryAndMrt");
-let descriptionP = document.querySelector(".description");
-let addressP = document.querySelector(".address");
-let transportP= document.querySelector(".transport");
-let photoDiv = document.querySelector(".photo");
-let dotsDiv = document.querySelector(".dots");
+const morningPrice = document.querySelector(".morningPrice");
+const afternoonPrice = document.querySelector(".afternoonPrice");
+const nameDiv = document.querySelector(".name");
+const categoryAndMrtDiv = document.querySelector(".categoryAndMrt");
+const descriptionP = document.querySelector(".description");
+const addressP = document.querySelector(".address");
+const transportP= document.querySelector(".transport");
+const photoDiv = document.querySelector(".photo");
+const dotsDiv = document.querySelector(".dots");
+const prev = document.querySelector(".prev");
+const next = document.querySelector(".next");
+const morning = document.getElementById("morning");
+const afternoon = document.getElementById("afternoon");
 
 // 取得景點 id
 let url = location.href;
@@ -72,14 +76,15 @@ function showData(datas){
 
 
 // guide fee
-function morning(){
+morning.addEventListener("click", ()=>{
     morningPrice.style.display = "block";
     afternoonPrice.style.display = "none";
-}
-function afternoon(){
+})
+
+afternoon.addEventListener("click", ()=>{
     morningPrice.style.display = "none";
     afternoonPrice.style.display = "block";
-}
+})
 
 // dot control
 function currentSlide(n){
@@ -88,15 +93,20 @@ function currentSlide(n){
 }
 
 // plus or minus slide
-function plusSlides(n){
-    slideIndex += n;
+prev.addEventListener("click", plusSlides)
+next.addEventListener("click", plusSlides)
+function plusSlides(elem){
+    if(elem.target.className === "next") {
+        slideIndex += 1;
+    }else{
+        slideIndex += -1;
+    }
     showSlides(slideIndex);
 }
 
 function showSlides(n) {
     let img = document.querySelectorAll(".img");
     let dot = document.querySelectorAll("span");
-    console.log(dot)
     if (n > img.length){slideIndex = 1}
     if (n < 1){slideIndex = img.length}
     for (i = 0; i < img.length; i++) {

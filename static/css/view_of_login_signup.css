@@ -119,3 +119,29 @@
 .loginRemind span, .signupRemind span{
     cursor:pointer;   
 }
+.loginPassword{
+    position:relative;
+    z-index:1;
+}
+.eyeShow{
+    background-image:url(/static/image/eye_show.png);
+    position:absolute;
+    width:20px;
+    height:20px;
+    top:14px;
+    right:15px;
+    background-position:center;
+    background-size:cover;
+    display:none;
+}
+.eyeHidden{
+    background-image:url(/static/image/eye_hidden.png);
+    position:absolute;
+    width:20px;
+    height:20px;
+    top:15px;
+    right:15px;
+    color:#FFFFFF;
+    background-position:center;
+    background-size:cover;
+}

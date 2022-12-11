@@ -13,8 +13,8 @@
             <script src="/static/js/nav.js"></script>
             <div class="section">
                 <div class="photo">
-                    <img class="prev" onclick="plusSlides(-1)" src="/static/image/btn_leftArrow.png"></img>
-                    <img class="next" onclick="plusSlides(1)" src="/static/image/btn_rightArrow.png"></img>
+                    <img class="prev" src="/static/image/btn_leftArrow.png"></img>
+                    <img class="next" src="/static/image/btn_rightArrow.png"></img>
                     <div class="dots">
                     </div>
                 </div>
@@ -30,12 +30,12 @@
                         </div>
                         <div class="time">
                             <div class="timeTitle">選擇時間：</div>
-                            <label class="radio" onclick="morning()">
+                            <label class="radio" id="morning">
                                 <input type="radio" name="radio" checked="checked">
                                 <div class="circle"></div>
                                 <div class="period">上班天</div>
                             </label>
-                            <label onclick="afternoon()">
+                            <label id="afternoon">
                                 <input type="radio" name="radio" >
                                 <div class="circle"></div>
                                 <div class="period">下班天</div>

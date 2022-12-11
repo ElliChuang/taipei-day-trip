@@ -52,7 +52,6 @@ def user_auth():
 			except:
 				return jsonify({"data": "token is not valid."})
 		else:
-			print("no token in session")
 			return jsonify({"data": None}),400
 
 	# 使用者登入
@@ -60,7 +59,6 @@ def user_auth():
 		data = request.get_json()
 		email = data["email"]
 		password = data["password"]
-		print("登入取得：", data)
 		if email == "" or password == "":
 			return jsonify({
 						"error": True,
@@ -72,7 +70,6 @@ def user_auth():
 			query = ("SELECT id, email, password FROM member where email = %s")
 			mycursor.execute(query, (email,))
 			result = mycursor.fetchone()
-			print("登入取得資料庫：", result)
 			if not result: 
 				return jsonify({
 							"error": True,
@@ -87,7 +84,6 @@ def user_auth():
 				}
 				token = jwt.encode(payload, token_pw, algorithm="HS256")
 				session["token"] = token
-				print("token:ok")
 				return jsonify({
 							"ok": True    
 						}),200

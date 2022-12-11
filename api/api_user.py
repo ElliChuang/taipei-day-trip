@@ -31,7 +31,6 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(
 @api_user.route("/api/user", methods=["POST"])
 def signup():
 	data = request.get_json()
-	print(data)
 	if data["name"] == "" or data["email"] == "" or data["password"] == "":
 		return jsonify({
 					"error": True,
