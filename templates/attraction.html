@@ -6,11 +6,11 @@
         <title>Taipei Attraction</title>
         <link rel="stylesheet" type="text/css" href="/static/css/attraction.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
-        <link rel="stylesheet" type="text/css" href="/static/css/view_of_login_signup.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/login_signup.css" />
     </head>
     <body>
         <div class="content">
-            <script src="/static/js/nav.js"></script>
+            <script src="/static/js/html_of_nav.js"></script>
             <div class="section">
                 <div class="photo">
                     <img class="prev" src="/static/image/btn_leftArrow.png"></img>
@@ -26,17 +26,17 @@
                         <div class="subtitle">以此景點為中心的一日行程，帶您探索城市角落故事</div>
                         <div class="bookdate">
                             <label class="date">選擇日期：</label>
-                            <input type="date"></input>
+                            <input type="date" id="date"></input>
                         </div>
                         <div class="time">
                             <div class="timeTitle">選擇時間：</div>
                             <label class="radio" id="morning">
-                                <input type="radio" name="radio" checked="checked">
+                                <input type="radio" name="radio" id="morningIput" value="morning">
                                 <div class="circle"></div>
                                 <div class="period">上班天</div>
                             </label>
                             <label id="afternoon">
-                                <input type="radio" name="radio" >
+                                <input type="radio" name="radio"  id="afternoonIput" value="afternoon">
                                 <div class="circle"></div>
                                 <div class="period">下班天</div>
                             </label>
@@ -46,7 +46,10 @@
                             <div class="morningPrice">新台幣 2000元</div>
                             <div class="afternoonPrice" style="display:none">新台幣 2500元</div>
                         </div>
-                        <div class="submit">開始預定行程</div>
+                        <div class="submit">
+                            <span class="submitToOrder">開始預定行程</span>
+                            <span class="notice"></span>
+                        </div>
                     </div>
                 </div>    
             </div> 
@@ -58,9 +61,9 @@
                 <p class="transport"></p>
             </div>
         </div>
-        <script src="/static/js/view_of_login_signup.js"></script> 
+        <script src="/static/js/html_of_login_signup.js"></script> 
         <footer class="footer"></footer>
-        <script src="/static/js/attraction.js"></script>
-        <script src="/static/js/auth.js"></script>
+        <script type="module" src="/static/js/attraction.js"></script>
+        <script type="module" src="/static/js/auth.js"></script>
     </body>
 </html>

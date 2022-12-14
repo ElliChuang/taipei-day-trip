@@ -89,7 +89,6 @@ function showData(datas){
         let textMrt = nameMrt.cloneNode(true);
         mrtDiv.appendChild(textMrt);
         // category
-        let category = document.querySelectorAll(".category");
         let nameCategory = document.createTextNode(datas.data[i]['category']);
         let textCategory = nameCategory.cloneNode(true);
         categoryDiv.appendChild(textCategory);  
@@ -125,6 +124,7 @@ function removeDiv(){
         teamDiv[i].removeChild(photoDiv[i]);
         main.removeChild(teamDiv[i])
     }
+    main.innerText = "";
 }
 
 

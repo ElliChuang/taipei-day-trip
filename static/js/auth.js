@@ -7,6 +7,8 @@ const goLogin = document.getElementById("goLogin");
 const goSignUp = document.getElementById("goSignUp");
 const loginOfNav = document.getElementById("loginOfNav");
 const logoutOFNav = document.getElementById("logoutOFNav");
+const backToHomePage = document.getElementById("backToHomePage");
+const goToBookingPage = document.getElementById("goToBookingPage");
 const loginEmail = document.getElementById("loginEmail");
 const loginPassword = document.getElementById("loginPassword");
 const signUpName = document.getElementById("signUpName");
@@ -16,12 +18,11 @@ const memberSignUp = document.getElementById("memberSignUp");
 const loginMessage = document.getElementById("loginMessage");
 const signUpMessage = document.getElementById("signUpMessage");
 const memberLogin = document.getElementById("memberLogin");
-const backToHomePage = document.getElementById("backToHomePage");
 const loginPasswordShow = document.getElementById("loginPasswordShow");
 const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
-
+export {loginOfNav, logoutOFNav};
 
 
 // 關閉 登入／註冊 視窗
@@ -36,7 +37,7 @@ function closeView(){
 // 顯示登入頁面
 goLogin.addEventListener("click", showLogin);
 loginOfNav.addEventListener("click", showLogin);
-function showLogin(){
+export default function showLogin(){
     outer.style.display = "block";
     signup.style.display = "none";
     login.style.display = "block";
@@ -59,10 +60,20 @@ goSignUp.addEventListener("click", ()=>{
 });
 
 
-// 點擊nav title 回首頁
+// 點擊 nav title 回首頁
 backToHomePage.addEventListener("click", ()=>{
     window.location.href = "/";
 })
+
+// 點擊 nav 預定行程 跳轉Booking頁面
+goToBookingPage.addEventListener("click", ()=>{
+    if(loginOfNav.style.display === "none"){
+        window.location.href = "/booking";
+    }else if(logoutOFNav.style.display === "none"){
+        showLogin();
+    }
+})
+
 
 // 顯示密碼
 signUpPasswordHidden.addEventListener("click", showPassword)
@@ -109,23 +120,29 @@ memberSignUp.addEventListener("click", ()=>{
 })
 
 // 取得會員狀態
-function getStatus(){
+function getStatus(callback){
     let url = "/api/user/auth";
     fetch(url,{
         method : "GET",
     }).then(function(response){
             return response.json();
-    }).then(function(Data){
-        if(Data.data !== null && Data.data.id ){
-            loginOfNav.style.display = "none";
-            logoutOFNav.style.display = "block";
-        }else{
-            loginOfNav.style.display = "block";
-            logoutOFNav.style.display = "none";
-        }
+    }).then(function(data){
+        callback(data);
     })
 }
-getStatus();
+
+// 顯示登入／登出 of nav bar
+getStatus(navOfLoginOrLogout);
+function navOfLoginOrLogout(elem){
+    if(elem.data !== null && elem.data.id){
+        loginOfNav.style.display = "none";
+        logoutOFNav.style.display = "block";
+    }else{
+        loginOfNav.style.display = "block";
+        logoutOFNav.style.display = "none";
+    }
+}
+
 
 
 // 會員登入

@@ -190,9 +190,6 @@ html, body{
 }
 
 @media(max-width:1200px){
-    .frame{
-        width:90%;
-    }
     .describe{
         width:90%;
     }

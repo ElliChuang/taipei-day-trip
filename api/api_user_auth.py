@@ -41,12 +41,12 @@ def user_auth():
 		if "token" in session:
 			try:
 				token = session["token"]
-				decodeData = jwt.decode(token, token_pw, algorithms="HS256")
+				decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 				return jsonify({
 						"data": {
-								"id" : decodeData["id"],
-								"name" : decodeData["name"],
-								"email" : decodeData["email"],
+								"id" : decode_data["id"],
+								"name" : decode_data["name"],
+								"email" : decode_data["email"],
 							}
 						}),200
 			except:
@@ -67,7 +67,7 @@ def user_auth():
 		try:
 			connection_object = connection_pool.get_connection()
 			mycursor = connection_object.cursor()
-			query = ("SELECT id, email, password FROM member where email = %s")
+			query = ("SELECT id, name, email, password FROM member WHERE email = %s")
 			mycursor.execute(query, (email,))
 			result = mycursor.fetchone()
 			if not result: 
@@ -75,7 +75,7 @@ def user_auth():
 							"error": True,
 							"data" : "電子郵件輸入錯誤",             
 						}),400
-			elif check_password_hash(result[2], password):
+			elif check_password_hash(result[3], password):
 				payload = {
 					"id" : result[0],
 					"name" : result[1],

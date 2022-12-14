@@ -11,10 +11,14 @@ const prev = document.querySelector(".prev");
 const next = document.querySelector(".next");
 const morning = document.getElementById("morning");
 const afternoon = document.getElementById("afternoon");
+const submitToOrder = document.querySelector(".submitToOrder");
+const notice = document.querySelector(".notice");
+import {loginOfNav, logoutOFNav} from "./auth.js";
+import showLogin from "./auth.js"
 
 // 取得景點 id
 let url = location.href;
-let attractionId = url.split("attraction/")[1];
+const attractionId = url.split("attraction/")[1];
 
 // 設定滑動圖片index
 let slideIndex = 1;
@@ -61,7 +65,7 @@ function showData(datas){
     transportP.appendChild(textTransport);
     // img
     let imgLength = datas.data['images'].length;
-    for(i = 0; i < imgLength; i += 1){
+    for(let i = 0; i < imgLength; i += 1){
         let img = document.createElement("img");
         img.className = "img";
         img.src = datas.data['images'][i];
@@ -109,10 +113,59 @@ function showSlides(n) {
     let dot = document.querySelectorAll("span");
     if (n > img.length){slideIndex = 1}
     if (n < 1){slideIndex = img.length}
-    for (i = 0; i < img.length; i++) {
+    for (let i = 0; i < img.length; i++) {
       img[i].style.display = "none";
       dot[i].className = "dot";
     }
     img[slideIndex-1].style.display = "block";
     dot[slideIndex-1].className = "dotSlides";
   }
+
+// 預定行程
+submitToOrder.addEventListener("click", ()=>{
+    if(logoutOFNav.style.display === "none"){
+        showLogin();
+    }else if(loginOfNav.style.display === "none"){
+        sendOrder();
+    }  
+})
+
+function sendOrder(){
+    const date = document.getElementById("date").value;
+    const inputs = document.querySelectorAll('[type=radio]')
+    let time = "";
+    let price = "";
+    inputs.forEach(input => {
+        if(input.checked){
+            if(input.value === "morning"){
+                time = "morning";
+                price = 2000;
+            }else if(input.value === "afternoon"){
+                time = "afternoon";
+                price = 2500;
+            }
+        }
+    })
+    const url = "/api/booking";
+    const requestBody ={
+        "attractionId" : attractionId,
+        "date" : date,
+        "time" : time,
+        "price" : price,
+    }
+    console.log(requestBody)
+    fetch(url,{
+        method : "POST",
+        headers : {"content-type" : "application/json"},
+        body : JSON.stringify(requestBody)
+    }).then(function(response){
+            return response.json();
+    }).then(function(Data){
+        console.log("開始預定:", Data);
+        if(Data.ok){
+            window.location.href = "/booking";
+        }else{
+            notice.innerText = Data.data;
+        } 
+    })   
+}

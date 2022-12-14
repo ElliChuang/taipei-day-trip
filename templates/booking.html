@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<html>
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8"/>   
+        <title>Taipei Booking</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/booking.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/login_signup.css" />
+    </head>
+    <body>
+        <div class="content">
+            <script src="/static/js/html_of_nav.js"></script>
+            <div class="order">
+                <div class="headline">您好，{{name}}，待預定的行程如下：</div>
+                <div class="section">
+                    <div class="picture">
+                        <img/>
+                    </div>
+                    <div class="infor">
+                        <div class="title">台北一日遊：</div>
+                        <div class="message">日期：</div>
+                        <div class="message">時間：</div>
+                        <div class="message">費用：</div>
+                        <div class="message">地點：</div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="contactForm">
+                <div class="contactInfor">你的聯絡資訊</div>
+                <label>聯絡姓名：</label><input type="text" required /><br/>
+                <label>連絡信箱：</label><input type="email" required />
+                    <span class="check"></span><br/>
+                <label>手機號碼：</label><input type="text" required pattern="[0-9]{10}"/>
+                    <span class="check"></span><br/>
+                <div class="notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+            </div>
+            <hr/>
+            <div class="paymentForm">
+                <div class="paymentInfor">信用卡付款資訊</div>
+                <label>卡片號碼：</label><input type="text" required placeholder="**** **** **** ****" pattern="[0-9]{16}"/>
+                    <span class="check"></span><br/>
+                <label>過期時間：</label><input type="email" required placeholder="ＭＭ/YY"/>
+                    <span class="check"></span><br/>
+                <label>驗證密碼：</label><input type="text" required placeholder="CCV" pattern="[0-9]{3}"/>
+                    <span class="check"></span><br/>
+            </div>
+            <hr/>
+            <div class="confirmForm">
+                <div class="confirmInfor">總價：新臺幣2000元</div>
+                <div class="confirmButton">確認訂購並付款</div>
+            </div>
+        </div>
+        <script src="/static/js/html_of_login_signup.js"></script> 
+        <footer class="footer"></footer>
+        <script type="module" src="/static/js/booking.js"></script>
+        <script type="module" src="/static/js/auth.js"></script>
+    </body>
+</html>
