@@ -1,16 +1,23 @@
-let morningPrice = document.querySelector(".morningPrice");
-let afternoonPrice = document.querySelector(".afternoonPrice");
-let nameDiv = document.querySelector(".name");
-let categoryAndMrtDiv = document.querySelector(".categoryAndMrt");
-let descriptionP = document.querySelector(".description");
-let addressP = document.querySelector(".address");
-let transportP= document.querySelector(".transport");
-let photoDiv = document.querySelector(".photo");
-let dotsDiv = document.querySelector(".dots");
+const morningPrice = document.querySelector(".morningPrice");
+const afternoonPrice = document.querySelector(".afternoonPrice");
+const nameDiv = document.querySelector(".name");
+const categoryAndMrtDiv = document.querySelector(".categoryAndMrt");
+const descriptionP = document.querySelector(".description");
+const addressP = document.querySelector(".address");
+const transportP= document.querySelector(".transport");
+const photoDiv = document.querySelector(".photo");
+const dotsDiv = document.querySelector(".dots");
+const prev = document.querySelector(".prev");
+const next = document.querySelector(".next");
+const morning = document.getElementById("morning");
+const afternoon = document.getElementById("afternoon");
+const submitToOrder = document.querySelector(".submitToOrder");
+const notice = document.querySelector(".notice");
+import {getStatus, showLogin} from "./auth.js";
 
 // 取得景點 id
 let url = location.href;
-let attractionId = url.split("attraction/")[1];
+const attractionId = url.split("attraction/")[1];
 
 // 設定滑動圖片index
 let slideIndex = 1;
@@ -36,73 +43,139 @@ function getData(callback) {
 
 function showData(datas){
     // name
-    let name = document.createTextNode(datas.data['name']);
-    let textName = name.cloneNode(true);
+    const name = document.createTextNode(datas.data['name']);
+    const textName = name.cloneNode(true);
     nameDiv.appendChild(textName);
     // category at MRT 
-    let categoryAndMrt = document.createTextNode(datas.data['mrt'] + " at " + datas.data['category']);
-    let textCategoryAndMrt = categoryAndMrt.cloneNode(true);
+    const categoryAndMrt = document.createTextNode(datas.data['mrt'] + " at " + datas.data['category']);
+    const textCategoryAndMrt = categoryAndMrt.cloneNode(true);
     categoryAndMrtDiv.appendChild(textCategoryAndMrt);
     // description
-    let description = document.createTextNode(datas.data['description']);
-    let textDescription = description.cloneNode(true);
+    const description = document.createTextNode(datas.data['description']);
+    const textDescription = description.cloneNode(true);
     descriptionP.appendChild(textDescription);
     // address
-    let address = document.createTextNode(datas.data['address']);
-    let textAddress = address.cloneNode(true);
+    const address = document.createTextNode(datas.data['address']);
+    const textAddress = address.cloneNode(true);
     addressP.appendChild(textAddress);
     // transport
-    let transport = document.createTextNode(datas.data['transport']);
-    let textTransport = transport.cloneNode(true);
+    const transport = document.createTextNode(datas.data['transport']);
+    const textTransport = transport.cloneNode(true);
     transportP.appendChild(textTransport);
     // img
-    let imgLength = datas.data['images'].length;
-    for(i = 0; i < imgLength; i += 1){
+    const imgLength = datas.data['images'].length;
+    for(let i = 0; i < imgLength; i += 1){
         let img = document.createElement("img");
         img.className = "img";
         img.src = datas.data['images'][i];
         photoDiv.appendChild(img);
         let dot = document.createElement("span");
         dot.className = "dot";
-        dot.setAttribute("onclick", `currentSlide(${i})`);
+        let dotNumber = document.createElement("input");
+        dotNumber.className = "dotNumber";
+        dotNumber.value = i;
         dotsDiv.appendChild(dot);
+        dot.appendChild(dotNumber);
     }
     showSlides(slideIndex);
+    const nums = document.querySelectorAll(".dotNumber")
+    nums.forEach(num => {
+        num.addEventListener("click", currentSlide)
+    })
 }
 
 
 // guide fee
-function morning(){
+morning.addEventListener("click", ()=>{
     morningPrice.style.display = "block";
     afternoonPrice.style.display = "none";
-}
-function afternoon(){
+})
+
+afternoon.addEventListener("click", ()=>{
     morningPrice.style.display = "none";
     afternoonPrice.style.display = "block";
-}
+})
 
 // dot control
 function currentSlide(n){
-    slideIndex = n + 1;
+    let num = Number(n.target.value)
+    slideIndex = num + 1;
     showSlides(slideIndex);
 }
 
 // plus or minus slide
-function plusSlides(n){
-    slideIndex += n;
+prev.addEventListener("click", plusSlides)
+next.addEventListener("click", plusSlides)
+function plusSlides(elem){
+    if(elem.target.className === "next") {
+        slideIndex += 1;
+    }else{
+        slideIndex += -1;
+    }
     showSlides(slideIndex);
 }
 
 function showSlides(n) {
     let img = document.querySelectorAll(".img");
     let dot = document.querySelectorAll("span");
-    console.log(dot)
     if (n > img.length){slideIndex = 1}
     if (n < 1){slideIndex = img.length}
-    for (i = 0; i < img.length; i++) {
+    for (let i = 0; i < img.length; i++) {
       img[i].style.display = "none";
       dot[i].className = "dot";
     }
     img[slideIndex-1].style.display = "block";
     dot[slideIndex-1].className = "dotSlides";
   }
+
+// 預定行程
+submitToOrder.addEventListener("click", ()=>{
+    getStatus(checkStatus)
+    function checkStatus(elem){
+        if(elem.data !== null && elem.data.id){
+            sendOrder();
+        }else{
+            showLogin();
+        }
+    }
+})
+
+function sendOrder(){
+    const date = document.getElementById("date").value;
+    const inputs = document.querySelectorAll('[type=radio]')
+    let time = "";
+    let price = "";
+    inputs.forEach(input => {
+        if(input.checked){
+            if(input.value === "morning"){
+                time = "morning";
+                price = 2000;
+            }else if(input.value === "afternoon"){
+                time = "afternoon";
+                price = 2500;
+            }
+        }
+    })
+    const url = "/api/booking";
+    const requestBody ={
+        "attractionId" : attractionId,
+        "date" : date,
+        "time" : time,
+        "price" : price,
+    }
+    console.log(requestBody)
+    fetch(url,{
+        method : "POST",
+        headers : {"content-type" : "application/json"},
+        body : JSON.stringify(requestBody)
+    }).then(function(response){
+            return response.json();
+    }).then(function(Data){
+        console.log("開始預定:", Data);
+        if(Data.ok){
+            window.location.href = "/booking";
+        }else{
+            notice.innerText = Data.data;
+        } 
+    })   
+}

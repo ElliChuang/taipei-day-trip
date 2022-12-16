@@ -47,6 +47,38 @@ INSERT INTO `attraction` VALUES (1,'新北投溫泉區','北投溫泉從日據�
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cart` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `attraction_id` bigint NOT NULL,
+  `member_id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `price` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attraction_id` (`attraction_id`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`attraction_id`) REFERENCES `attraction` (`id`),
+  CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cart`
+--
+
+LOCK TABLES `cart` WRITE;
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+INSERT INTO `cart` VALUES (12,1,9,'2022-12-10','afternoon',2500);
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `image`
 --
 
@@ -84,7 +116,7 @@ CREATE TABLE `member` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +125,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,'小藍','blue@gmail.com','blue123'),(2,'小綠','green@gmail.com','green123'),(3,'小黃','yellow@gmail.com','yellow123'),(4,'小黑','black@gmail.com','black123'),(5,'小粉','pink@gmail.com','pink123'),(6,'小紅','red@gmail.com','red123'),(7,'小灰','gray@gmail.com','gray123'),(8,'小白','white@gmail.com','white123'),(9,'小橘','orange@gmail.com','sha256$osoYHdF22TZ5wlDT$31919fd070cbcd04ebe4ace3783fd8955c79d84d29be320e3229349d7009fe1a');
+INSERT INTO `member` VALUES (1,'小藍','blue@gmail.com','blue123'),(2,'小綠','green@gmail.com','green123'),(3,'小黃','yellow@gmail.com','yellow123'),(4,'小黑','black@gmail.com','black123'),(5,'小粉','pink@gmail.com','pink123'),(6,'小紅','red@gmail.com','red123'),(7,'小灰','gray@gmail.com','gray123'),(8,'小白','white@gmail.com','white123'),(9,'小橘','orange@gmail.com','sha256$osoYHdF22TZ5wlDT$31919fd070cbcd04ebe4ace3783fd8955c79d84d29be320e3229349d7009fe1a'),(10,'小金','gold@gmail.com','sha256$H35ZsZu8dIjO9BSi$28ac86c3c822d89c5d979d7592c9b5cd2c782cfa3c879364baaa0bcc37da5d77');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -106,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-09 18:06:37
+-- Dump completed on 2022-12-16 17:36:30

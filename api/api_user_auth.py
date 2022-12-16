@@ -41,18 +41,17 @@ def user_auth():
 		if "token" in session:
 			try:
 				token = session["token"]
-				decodeData = jwt.decode(token, token_pw, algorithms="HS256")
+				decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 				return jsonify({
 						"data": {
-								"id" : decodeData["id"],
-								"name" : decodeData["name"],
-								"email" : decodeData["email"],
+								"id" : decode_data["id"],
+								"name" : decode_data["name"],
+								"email" : decode_data["email"],
 							}
 						}),200
 			except:
 				return jsonify({"data": "token is not valid."})
 		else:
-			print("no token in session")
 			return jsonify({"data": None}),400
 
 	# 使用者登入
@@ -60,7 +59,6 @@ def user_auth():
 		data = request.get_json()
 		email = data["email"]
 		password = data["password"]
-		print("登入取得：", data)
 		if email == "" or password == "":
 			return jsonify({
 						"error": True,
@@ -69,16 +67,15 @@ def user_auth():
 		try:
 			connection_object = connection_pool.get_connection()
 			mycursor = connection_object.cursor()
-			query = ("SELECT id, email, password FROM member where email = %s")
+			query = ("SELECT id, name, email, password FROM member WHERE email = %s")
 			mycursor.execute(query, (email,))
 			result = mycursor.fetchone()
-			print("登入取得資料庫：", result)
 			if not result: 
 				return jsonify({
 							"error": True,
 							"data" : "電子郵件輸入錯誤",             
 						}),400
-			elif check_password_hash(result[2], password):
+			elif check_password_hash(result[3], password):
 				payload = {
 					"id" : result[0],
 					"name" : result[1],
@@ -87,7 +84,6 @@ def user_auth():
 				}
 				token = jwt.encode(payload, token_pw, algorithm="HS256")
 				session["token"] = token
-				print("token:ok")
 				return jsonify({
 							"ok": True    
 						}),200

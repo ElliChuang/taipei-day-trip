@@ -3,6 +3,7 @@
     top:0;
     background-color:white;
     z-index:2;
+    border-bottom: 1px solid #E8E8E8;
 }
 .frame{
     display:flex;
@@ -15,7 +16,7 @@
 .left{
     display:flex;
     flex:none;
-    width:150px;
+    /* width:150px; */
     font-size:30px;
     height:34px;
     color:#448899;
@@ -58,4 +59,10 @@
     padding:10px;
     display:none;
     cursor:pointer;
+}
+
+@media(max-width:1200px){
+    .left{
+        padding-left: 10px;
+    }
 }
