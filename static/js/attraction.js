@@ -13,8 +13,7 @@ const morning = document.getElementById("morning");
 const afternoon = document.getElementById("afternoon");
 const submitToOrder = document.querySelector(".submitToOrder");
 const notice = document.querySelector(".notice");
-import {loginOfNav, logoutOFNav} from "./auth.js";
-import showLogin from "./auth.js"
+import {getStatus, showLogin} from "./auth.js";
 
 // 取得景點 id
 let url = location.href;
@@ -44,27 +43,27 @@ function getData(callback) {
 
 function showData(datas){
     // name
-    let name = document.createTextNode(datas.data['name']);
-    let textName = name.cloneNode(true);
+    const name = document.createTextNode(datas.data['name']);
+    const textName = name.cloneNode(true);
     nameDiv.appendChild(textName);
     // category at MRT 
-    let categoryAndMrt = document.createTextNode(datas.data['mrt'] + " at " + datas.data['category']);
-    let textCategoryAndMrt = categoryAndMrt.cloneNode(true);
+    const categoryAndMrt = document.createTextNode(datas.data['mrt'] + " at " + datas.data['category']);
+    const textCategoryAndMrt = categoryAndMrt.cloneNode(true);
     categoryAndMrtDiv.appendChild(textCategoryAndMrt);
     // description
-    let description = document.createTextNode(datas.data['description']);
-    let textDescription = description.cloneNode(true);
+    const description = document.createTextNode(datas.data['description']);
+    const textDescription = description.cloneNode(true);
     descriptionP.appendChild(textDescription);
     // address
-    let address = document.createTextNode(datas.data['address']);
-    let textAddress = address.cloneNode(true);
+    const address = document.createTextNode(datas.data['address']);
+    const textAddress = address.cloneNode(true);
     addressP.appendChild(textAddress);
     // transport
-    let transport = document.createTextNode(datas.data['transport']);
-    let textTransport = transport.cloneNode(true);
+    const transport = document.createTextNode(datas.data['transport']);
+    const textTransport = transport.cloneNode(true);
     transportP.appendChild(textTransport);
     // img
-    let imgLength = datas.data['images'].length;
+    const imgLength = datas.data['images'].length;
     for(let i = 0; i < imgLength; i += 1){
         let img = document.createElement("img");
         img.className = "img";
@@ -72,10 +71,17 @@ function showData(datas){
         photoDiv.appendChild(img);
         let dot = document.createElement("span");
         dot.className = "dot";
-        dot.setAttribute("onclick", `currentSlide(${i})`);
+        let dotNumber = document.createElement("input");
+        dotNumber.className = "dotNumber";
+        dotNumber.value = i;
         dotsDiv.appendChild(dot);
+        dot.appendChild(dotNumber);
     }
     showSlides(slideIndex);
+    const nums = document.querySelectorAll(".dotNumber")
+    nums.forEach(num => {
+        num.addEventListener("click", currentSlide)
+    })
 }
 
 
@@ -92,7 +98,8 @@ afternoon.addEventListener("click", ()=>{
 
 // dot control
 function currentSlide(n){
-    slideIndex = n + 1;
+    let num = Number(n.target.value)
+    slideIndex = num + 1;
     showSlides(slideIndex);
 }
 
@@ -123,11 +130,14 @@ function showSlides(n) {
 
 // 預定行程
 submitToOrder.addEventListener("click", ()=>{
-    if(logoutOFNav.style.display === "none"){
-        showLogin();
-    }else if(loginOfNav.style.display === "none"){
-        sendOrder();
-    }  
+    getStatus(checkStatus)
+    function checkStatus(elem){
+        if(elem.data !== null && elem.data.id){
+            sendOrder();
+        }else{
+            showLogin();
+        }
+    }
 })
 
 function sendOrder(){

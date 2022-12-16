@@ -67,6 +67,16 @@ html, body{
     background-color:#FFFFFF;
     border-radius:50%; 
     cursor:pointer;
+    position: relative;
+}
+.dotNumber{
+    width:18px;
+    height:18px;
+    background-color:#b91414;
+    border-radius:50%; 
+    cursor:pointer;
+    position:absolute;
+    opacity: 0;
 }
 .dotSlides{
     flex:none;
@@ -77,6 +87,7 @@ html, body{
     border:1px solid #FFFFFF;
     border-radius:50%;
     cursor:pointer;
+    position: relative;
 }
 .img{
     width:100%;
@@ -85,6 +96,8 @@ html, body{
     object-position:50% 50%;
     animation-name:active;
     animation-duration:1.2s;
+    border-radius: 5px;
+    border:1px solid #E8E8E8;
 }
 @keyframes active{
     from{opacity:0.5;}

@@ -22,7 +22,7 @@ const loginPasswordShow = document.getElementById("loginPasswordShow");
 const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
-export {loginOfNav, logoutOFNav};
+export {loginOfNav, logoutOFNav, showLogin, getStatus};
 
 
 // 關閉 登入／註冊 視窗
@@ -37,7 +37,7 @@ function closeView(){
 // 顯示登入頁面
 goLogin.addEventListener("click", showLogin);
 loginOfNav.addEventListener("click", showLogin);
-export default function showLogin(){
+function showLogin(){
     outer.style.display = "block";
     signup.style.display = "none";
     login.style.display = "block";
@@ -65,7 +65,7 @@ backToHomePage.addEventListener("click", ()=>{
     window.location.href = "/";
 })
 
-// 點擊 nav 預定行程 跳轉Booking頁面
+// 點擊 nav 預定行程 跳轉 Booking 頁面
 goToBookingPage.addEventListener("click", ()=>{
     if(loginOfNav.style.display === "none"){
         window.location.href = "/booking";

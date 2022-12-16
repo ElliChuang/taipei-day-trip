@@ -12,25 +12,14 @@
         <div class="content">
             <script src="/static/js/html_of_nav.js"></script>
             <div class="order">
-                <div class="headline">您好，{{name}}，待預定的行程如下：</div>
-                <div class="section">
-                    <div class="picture">
-                        <img/>
-                    </div>
-                    <div class="infor">
-                        <div class="title">台北一日遊：</div>
-                        <div class="message">日期：</div>
-                        <div class="message">時間：</div>
-                        <div class="message">費用：</div>
-                        <div class="message">地點：</div>
-                    </div>
-                </div>
+                <div class="headline">您好，<span id="memberName"></span>，待預定的行程如下：</div>
+                <div class="noOrder">目前沒有任何待預定的行程，<span id="homePage">回首頁</span></div>
             </div>
             <hr/>
             <div class="contactForm">
                 <div class="contactInfor">你的聯絡資訊</div>
-                <label>聯絡姓名：</label><input type="text" required /><br/>
-                <label>連絡信箱：</label><input type="email" required />
+                <label>聯絡姓名：</label><input type="text" name="name" required /><br/>
+                <label>連絡信箱：</label><input type="email" name="email" required />
                     <span class="check"></span><br/>
                 <label>手機號碼：</label><input type="text" required pattern="[0-9]{10}"/>
                     <span class="check"></span><br/>
@@ -48,7 +37,7 @@
             </div>
             <hr/>
             <div class="confirmForm">
-                <div class="confirmInfor">總價：新臺幣2000元</div>
+                <div class="confirmAmount"></div>
                 <div class="confirmButton">確認訂購並付款</div>
             </div>
         </div>

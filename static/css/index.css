@@ -116,6 +116,8 @@ html, body{
 .team{
     position:relative;
     cursor:pointer; 
+    border:1px solid #E8E8E8;
+    border-radius: 5px;
 }
 .team:hover{
     opacity:0.8;
@@ -131,6 +133,8 @@ html, body{
     height:197px;
 }
 .img{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     width:100%;
     height:100%;
     object-fit:cover;
@@ -154,6 +158,8 @@ html, body{
 .subtitle{
     width:270px;
     height:45px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     margin:auto;
     display:flex;
     align-items:center;
