@@ -37,19 +37,19 @@ function getOrderInfor(callback){
 }
 
 function checkOrder(datas){
-    if(datas.data === null){
-        contactForm.style.display = "none";
-        paymentForm.style.display = "none";
-        confirmForm.style.display = "none";
-        noOrder.style.display = "block";
-        hr.forEach((elem)=> elem.style.display = "none")
-    }else{
+    if(datas.data !== null && datas.data[0].attraction){
         contactForm.style.display = "block";
         paymentForm.style.display = "block";
         confirmForm.style.display = "block";
         noOrder.style.display = "none";
         hr.forEach((elem)=> elem.style.display = "block")
         showCart(datas);
+    }else{
+        contactForm.style.display = "none";
+        paymentForm.style.display = "none";
+        confirmForm.style.display = "none";
+        noOrder.style.display = "block";
+        hr.forEach((elem)=> elem.style.display = "none")
     }
 }
 

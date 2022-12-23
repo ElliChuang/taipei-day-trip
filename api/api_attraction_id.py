@@ -31,41 +31,44 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(
 def attractionId(attractionId):
 	try:
 		connection_object = connection_pool.get_connection()
-		mycursor = connection_object.cursor()
-		# id
-		mycursor.execute("SELECT id FROM attraction")
-		ids = mycursor.fetchall()
-		result_id = []
-		for id in ids:
-			result_id.append(id[0])
+		mycursor = connection_object.cursor(dictionary=True)
 		# response data
-		query = (
-			"SELECT a.name, a.description, a.address, a.transport, a.mrt, a.lat, a.lng, a.category, GROUP_CONCAT(image.URL) " 
-			"FROM attraction AS a " 
-			"INNER JOIN image on a.id = image.attraction_id " 
-			"WHERE a.id = %s " 
-			"GROUP BY a.id"
-			)
+		query = ("""
+			SELECT 
+				a.name, 
+				a.description, 
+				a.address, 
+				a.transport, 
+				a.mrt, 
+				a.lat, 
+				a.lng, 
+				a.category, 
+				GROUP_CONCAT(image.URL) AS images 
+			FROM attraction AS a 
+			INNER JOIN image on a.id = image.attraction_id 
+			WHERE a.id = %s  
+			GROUP BY a.id
+		""")
 		mycursor.execute(query, (attractionId,))
 		result = mycursor.fetchone()
-		images = result[8].split(",")
-		if attractionId not in result_id:
+		if not result:
 			return jsonify({
 						"error": True,
-						"data" : "REQUEST NOT FUND",             
+						"data" : "REQUEST NOT FOUND",             
 					}),400
 		else:
+			images = result["images"].split(",")
 			return jsonify({
 						"data" : {
 							"id" : attractionId,
-							"name" : result[0],
-							"category" : result[7],
-							"description" : result[1],
-							"address" : result[2],
-							"transport" : result[3],
-							"mrt" : result[4],
-							"lat" : result[5],
-							"lng" : result[6],
+							"name" : result["name"],
+							"category" : result["category"],
+							"description" : result["description"],
+							"address" : result["address"],
+							"transport" : result["transport"],
+							"mrt" : result["mrt"],
+							"lat" : result["lat"],
+							"lng" : result["lng"],
 							"images" : images        
 							}
 						})

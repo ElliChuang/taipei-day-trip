@@ -43,7 +43,7 @@ def getOrderNumber(orderNumber):
 		decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 		member_id = decode_data["id"]
 		connection_object = connection_pool.get_connection()
-		mycursor = connection_object.cursor()
+		mycursor = connection_object.cursor(dictionary=True)
 		# 確認景點是否重複
 		query = ("""
 			SELECT 
@@ -79,24 +79,16 @@ def getOrderNumber(orderNumber):
 			return jsonify({
 						"data" : None,             
 					}),200
-		# 取得欄位名稱，重整資料庫資料
-		column = [i[0] for i in mycursor.description] 
-		items = []
-		for i in range(len(results)):
-			dic = {}
-			for j in range(len(column)):
-				dic[column[j]] = results[i][j]
-			items.append(dic)
 		# 取得 response data
-		total_amount = items[0]["total_amount"]
-		contact = json.loads(items[0]["contact"]) # convert string to dict
+		total_amount = results[0]["total_amount"]
+		contact = json.loads(results[0]["contact"]) # convert string to dict
 		status = ""; 
-		if items[0]["status"] == "已付款":
+		if results[0]["status"] == "已付款":
 			status = 0
 		else: 
 			status = 1
 		trip = []
-		for item in items:
+		for item in results:
 			images = item["image"].split(",")
 			date = item["date"].strftime('%Y-%m-%d') 
 			data = {

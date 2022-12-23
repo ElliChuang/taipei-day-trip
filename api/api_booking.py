@@ -46,9 +46,16 @@ def booking():
 			decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 			member_id = decode_data["id"]
 			connection_object = connection_pool.get_connection()
-			mycursor = connection_object.cursor()
+			mycursor = connection_object.cursor(dictionary=True)
 			query = ("""
-				SELECT a.id AS id, a.name AS name, a.address AS address, c.date AS date, c.time AS time, c.price AS price, GROUP_CONCAT(i.URL) AS image
+				SELECT 
+					a.id, 
+					a.name, 
+					a.address, 
+					c.date, 
+					c.time, 
+					c.price, 
+					GROUP_CONCAT(i.URL) AS image
 				FROM attraction AS a
 				INNER JOIN cart AS c ON a.id = c.attraction_id
 				INNER JOIN image AS i ON a.id = i.attraction_id
@@ -60,18 +67,9 @@ def booking():
 			# 尚無預訂行程
 			if not results: 
 				return jsonify({"data" : None}),200
-
-			# 有預訂行程
-			column = [i[0] for i in mycursor.description] # 取得欄位名稱
-			items = []
-			for i in range(len(results)):
-				dic = {}
-				for j in range(len(column)):
-					dic[column[j]] = results[i][j]
-				items.append(dic)
 			# respose data
 			datas = []
-			for item in items:
+			for item in results:
 				images = item["image"].split(",")
 				date = item["date"].strftime('%Y-%m-%d') # 轉換 datetime.date格式
 				data = {
@@ -128,7 +126,7 @@ def booking():
 			# 確認景點是否重複
 			query = ("SELECT attraction_id FROM cart WHERE member_id = %s AND attraction_id = %s")
 			mycursor.execute(query, (member_id, attraction_id))
-			result = mycursor.fetchall()
+			result = mycursor.fetchone()
 			if result:
 				return jsonify({
 							"error": True,

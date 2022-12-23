@@ -66,7 +66,7 @@ def user_auth():
 					}),400
 		try:
 			connection_object = connection_pool.get_connection()
-			mycursor = connection_object.cursor()
+			mycursor = connection_object.cursor(dictionary=True)
 			query = ("SELECT id, name, email, password FROM member WHERE email = %s")
 			mycursor.execute(query, (email,))
 			result = mycursor.fetchone()
@@ -75,11 +75,11 @@ def user_auth():
 							"error": True,
 							"data" : "電子郵件輸入錯誤",             
 						}),400
-			elif check_password_hash(result[3], password):
+			elif check_password_hash(result["password"], password):
 				payload = {
-					"id" : result[0],
-					"name" : result[1],
-					"email" : result[2],
+					"id" : result["id"],
+					"name" : result["name"],
+					"email" : result["email"],
 					'exp' : datetime.datetime.utcnow() + datetime.timedelta(days=7)
 				}
 				token = jwt.encode(payload, token_pw, algorithm="HS256")
