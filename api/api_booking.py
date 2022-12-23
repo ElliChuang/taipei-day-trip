@@ -53,7 +53,7 @@ def booking():
 				INNER JOIN cart AS c ON a.id = c.attraction_id
 				INNER JOIN image AS i ON a.id = i.attraction_id
 				WHERE member_id = %s
-				GROUP BY a.id, c.date, c.time, c.price;;
+				GROUP BY a.id, c.date, c.time, c.price;
 			""")
 			mycursor.execute(query, (member_id,))
 			results = mycursor.fetchall()
@@ -109,7 +109,7 @@ def booking():
 		date = data["date"]
 		time = data["time"]
 		price = data["price"]
-		if attraction_id == "" or data == "" or time == "" or price == "":
+		if attraction_id == "" or date == "" or time == "" or price == "":
 			return jsonify({
 						"error": True,
 						"data" : "請選擇日期及時間",             

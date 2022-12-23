@@ -5,6 +5,8 @@ from api.api_categories import api_categories
 from api.api_user import api_user
 from api.api_user_auth import api_user_auth
 from api.api_booking import api_booking
+from api.api_orders import api_orders
+from api.api_order_id import api_order_id
 import os
 
 
@@ -39,6 +41,7 @@ app.register_blueprint(api_categories)
 app.register_blueprint(api_user)
 app.register_blueprint(api_user_auth)
 app.register_blueprint(api_booking)
-
+app.register_blueprint(api_orders)
+app.register_blueprint(api_order_id)
 
 app.run(host = '0.0.0.0', port = 3000)

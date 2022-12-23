@@ -12,8 +12,8 @@ const next = document.querySelector(".next");
 const morning = document.getElementById("morning");
 const afternoon = document.getElementById("afternoon");
 const submitToOrder = document.querySelector(".submitToOrder");
-const notice = document.querySelector(".notice");
 import {getStatus, showLogin} from "./auth.js";
+import {showNoticeWindow, closeNoticeWindow} from "./notice.js"
 
 // 取得景點 id
 let url = location.href;
@@ -163,7 +163,6 @@ function sendOrder(){
         "time" : time,
         "price" : price,
     }
-    console.log(requestBody)
     fetch(url,{
         method : "POST",
         headers : {"content-type" : "application/json"},
@@ -171,11 +170,10 @@ function sendOrder(){
     }).then(function(response){
             return response.json();
     }).then(function(Data){
-        console.log("開始預定:", Data);
         if(Data.ok){
             window.location.href = "/booking";
         }else{
-            notice.innerText = Data.data;
+            showNoticeWindow("錯誤訊息", Data.data, closeNoticeWindow);
         } 
     })   
 }

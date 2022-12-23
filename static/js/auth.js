@@ -22,8 +22,8 @@ const loginPasswordShow = document.getElementById("loginPasswordShow");
 const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
-export {loginOfNav, logoutOFNav, showLogin, getStatus};
-
+export {loginOfNav, logoutOFNav, showLogin, getStatus, goToHomePage};
+import {showNoticeWindow} from "./notice.js";
 
 // 關閉 登入／註冊 視窗
 loginClosed.addEventListener("click", closeView);
@@ -61,9 +61,10 @@ goSignUp.addEventListener("click", ()=>{
 
 
 // 點擊 nav title 回首頁
-backToHomePage.addEventListener("click", ()=>{
+backToHomePage.addEventListener("click", goToHomePage)
+function goToHomePage(){
     window.location.href = "/";
-})
+}
 
 // 點擊 nav 預定行程 跳轉 Booking 頁面
 goToBookingPage.addEventListener("click", ()=>{
@@ -112,7 +113,9 @@ memberSignUp.addEventListener("click", ()=>{
             return response.json();
     }).then(function(Data){
         if(Data.ok){
-            signUpMessage.innerText = "註冊成功";     
+            signUpMessage.innerText = "註冊成功";
+            closeView();
+            showNoticeWindow("註冊成功", "點選確定，登入會員", showLogin);     
         }else{
             signUpMessage.innerText = Data.data;     
         }
@@ -125,7 +128,7 @@ function getStatus(callback){
     fetch(url,{
         method : "GET",
     }).then(function(response){
-            return response.json();
+        return response.json();
     }).then(function(data){
         callback(data);
     })
@@ -143,7 +146,10 @@ function navOfLoginOrLogout(elem){
     }
 }
 
-
+// 重新載入頁面
+function reLoadPage(){
+    location.reload()
+}
 
 // 會員登入
 memberLogin.addEventListener("click", ()=>{
@@ -154,11 +160,12 @@ memberLogin.addEventListener("click", ()=>{
         headers : {"content-type" : "application/json"},
         body : JSON.stringify(requestBody)
     }).then(function(response){
-            return response.json();
+        return response.json();
     }).then(function(Data){
         console.log("會員登入:", Data);
         if(Data.ok){
-            location.reload();
+            closeView();
+            showNoticeWindow("登入成功", "點選確定，繼續瀏覽景點", reLoadPage);
         }else{
             loginMessage.innerText = Data.data; 
         } 
@@ -174,7 +181,7 @@ logoutOFNav.addEventListener("click", ()=>{
         return response.json();
     }).then(function(Data){
         if(Data.ok){
-            location.reload();
+            reLoadPage();
         }
     })
 })
