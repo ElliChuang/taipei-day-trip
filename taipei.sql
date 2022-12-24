@@ -65,7 +65,7 @@ CREATE TABLE `cart` (
   KEY `member_id` (`member_id`),
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`attraction_id`) REFERENCES `attraction` (`id`),
   CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,6 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (12,1,9,'2022-12-10','afternoon',2500);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,6 +127,97 @@ LOCK TABLES `member` WRITE;
 INSERT INTO `member` VALUES (1,'小藍','blue@gmail.com','blue123'),(2,'小綠','green@gmail.com','green123'),(3,'小黃','yellow@gmail.com','yellow123'),(4,'小黑','black@gmail.com','black123'),(5,'小粉','pink@gmail.com','pink123'),(6,'小紅','red@gmail.com','red123'),(7,'小灰','gray@gmail.com','gray123'),(8,'小白','white@gmail.com','white123'),(9,'小橘','orange@gmail.com','sha256$osoYHdF22TZ5wlDT$31919fd070cbcd04ebe4ace3783fd8955c79d84d29be320e3229349d7009fe1a'),(10,'小金','gold@gmail.com','sha256$H35ZsZu8dIjO9BSi$28ac86c3c822d89c5d979d7592c9b5cd2c782cfa3c879364baaa0bcc37da5d77');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `order_details`
+--
+
+DROP TABLE IF EXISTS `order_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_details` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(30) NOT NULL,
+  `attraction_id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `price` bigint NOT NULL,
+  `contact` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attraction_id` (`attraction_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`attraction_id`) REFERENCES `attraction` (`id`),
+  CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_details`
+--
+
+LOCK TABLES `order_details` WRITE;
+/*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+INSERT INTO `order_details` VALUES (5,'202212227794',6,'2022-12-28','morning',2000,'{\"name\": \"小橘\", \"email\": \"orange@gmail.com\", \"phone\": \"0912345678\"}'),(6,'202212228078',2,'2022-12-24','afternoon',2500,'{\"name\": \"小橘\", \"email\": \"orange@gmail.com\", \"phone\": \"0912345678\"}'),(7,'202212225484',1,'2022-12-26','morning',2000,'{\"name\": \"小橘\", \"email\": \"orange@gmail.com\", \"phone\": \"0912345678\"}'),(8,'202212225484',7,'2022-12-30','afternoon',2500,'{\"name\": \"小橘\", \"email\": \"orange@gmail.com\", \"phone\": \"0912345678\"}'),(9,'202212224654',11,'2022-12-27','morning',2000,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0987654321\"}'),(10,'202212224654',14,'2022-12-25','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0987654321\"}'),(11,'202212239924',13,'2022-12-30','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"098765432\"}'),(12,'202212236597',15,'2022-12-30','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0911111111\"}'),(13,'202212236597',17,'2022-12-26','morning',2000,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0911111111\"}'),(14,'202212236174',6,'2022-12-31','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0911223344\"}'),(15,'202212236174',12,'2022-12-26','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0911223344\"}'),(16,'202212231512',8,'2022-12-27','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"1234567897\"}'),(17,'202212231698',6,'2022-12-27','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"0987654321\"}'),(18,'202212235057',6,'2022-12-30','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"1234567895\"}'),(19,'202212235057',16,'2022-12-28','morning',2000,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"1234567895\"}'),(20,'202212239805',4,'2022-12-27','afternoon',2500,'{\"name\": \"小金\", \"email\": \"gold@gmail.com\", \"phone\": \"1111111111\"}');
+/*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
+  `id` varchar(30) NOT NULL,
+  `member_id` bigint NOT NULL,
+  `total_amount` bigint NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `created_dt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified_dt` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES ('202212224654',10,4500,'已付款','2022-12-22 23:45:57','2022-12-22 23:45:59'),('202212225484',9,4500,'已付款','2022-12-22 17:00:07','2022-12-22 17:00:08'),('202212227794',9,2000,'已付款','2022-12-22 14:28:21','2022-12-22 14:28:23'),('202212228078',9,2500,'已付款','2022-12-22 15:14:53','2022-12-22 15:14:54'),('202212231512',10,2500,'已付款','2022-12-23 12:12:16','2022-12-23 12:12:18'),('202212231698',10,2500,'已付款','2022-12-23 12:51:12','2022-12-23 12:51:13'),('202212235057',10,4500,'已付款','2022-12-23 16:54:12','2022-12-23 16:54:14'),('202212236174',10,5000,'未付款','2022-12-23 09:57:55',NULL),('202212236597',10,4500,'已付款','2022-12-23 09:37:26','2022-12-23 09:37:27'),('202212239805',10,2500,'已付款','2022-12-23 18:00:23','2022-12-23 18:00:24'),('202212239924',10,2500,'已付款','2022-12-23 09:31:29','2022-12-23 09:31:30');
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(30) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `created_dt` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (3,'202212227794','付款成功','2022-12-22 14:28:23'),(4,'202212228078','付款成功','2022-12-22 15:14:54'),(5,'202212225484','付款成功','2022-12-22 17:00:08'),(6,'202212224654','付款成功','2022-12-22 23:45:59'),(7,'202212239924','付款成功','2022-12-23 09:31:30'),(8,'202212236597','付款成功','2022-12-23 09:37:27'),(9,'202212236174','付款失敗','2022-12-23 09:57:55'),(10,'202212231512','付款成功','2022-12-23 12:12:18'),(11,'202212231698','付款成功','2022-12-23 12:51:13'),(12,'202212235057','付款成功','2022-12-23 16:54:14'),(13,'202212239805','付款成功','2022-12-23 18:00:24');
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -138,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-16 17:36:30
+-- Dump completed on 2022-12-23 18:19:55

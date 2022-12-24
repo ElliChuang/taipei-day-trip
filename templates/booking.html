@@ -7,13 +7,14 @@
         <link rel="stylesheet" type="text/css" href="/static/css/booking.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
         <link rel="stylesheet" type="text/css" href="/static/css/login_signup.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/notice.css" />
     </head>
     <body>
         <div class="content">
-            <script src="/static/js/html_of_nav.js"></script>
+            <script src="/static/js/html/html_of_nav.js"></script>
             <div class="order">
                 <div class="headline">您好，<span id="memberName"></span>，待預定的行程如下：</div>
-                <div class="noOrder">目前沒有任何待預定的行程，<span id="homePage">回首頁</span></div>
+                <div class="noOrder">目前沒有任何待預定的行程，<span class="homePage">回首頁</span></div>
             </div>
             <hr/>
             <div class="contactForm">
@@ -21,19 +22,25 @@
                 <label>聯絡姓名：</label><input type="text" name="name" required /><br/>
                 <label>連絡信箱：</label><input type="email" name="email" required />
                     <span class="check"></span><br/>
-                <label>手機號碼：</label><input type="text" required pattern="[0-9]{10}"/>
+                <label>手機號碼：</label><input type="text" name="phone" required pattern="[0-9]{10}" title="請輸入電話號碼"/>
                     <span class="check"></span><br/>
                 <div class="notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
             </div>
             <hr/>
             <div class="paymentForm">
                 <div class="paymentInfor">信用卡付款資訊</div>
-                <label>卡片號碼：</label><input type="text" required placeholder="**** **** **** ****" pattern="[0-9]{16}"/>
-                    <span class="check"></span><br/>
-                <label>過期時間：</label><input type="email" required placeholder="ＭＭ/YY"/>
-                    <span class="check"></span><br/>
-                <label>驗證密碼：</label><input type="text" required placeholder="CCV" pattern="[0-9]{3}"/>
-                    <span class="check"></span><br/>
+                <div class="cardInfor" >
+                    <label>卡片號碼：</label>
+                    <div class="tpfield" id="card-number"></div>
+                </div>
+                <div class="cardInfor" >
+                    <label>過期時間：</label>
+                    <div class="tpfield" id="card-expiration-date"></div>
+                </div>
+                <div class="cardInfor" >
+                    <label>驗證密碼：</label>
+                    <div class="tpfield" id="card-ccv"></div>
+                </div>
             </div>
             <hr/>
             <div class="confirmForm">
@@ -41,9 +48,13 @@
                 <div class="confirmButton">確認訂購並付款</div>
             </div>
         </div>
-        <script src="/static/js/html_of_login_signup.js"></script> 
+        <script src="/static/js/html/html_of_login_signup.js"></script> 
+        <script src="/static/js/html/html_of_notice.js"></script> 
         <footer class="footer"></footer>
+        <script src="https://js.tappaysdk.com/tpdirect/v5.13.1"></script>
         <script type="module" src="/static/js/booking.js"></script>
+        <script type="module" src="/static/js/payment.js"></script>
+        <script type="module" src="/static/js/notice.js"></script>
         <script type="module" src="/static/js/auth.js"></script>
     </body>
 </html>

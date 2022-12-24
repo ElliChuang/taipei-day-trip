@@ -1,16 +1,17 @@
-const order = document.querySelector(".order");
+const order = document.querySelector('.order');
 const confirmAmount = document.querySelector(".confirmAmount");
 const memberName = document.getElementById("memberName");
-const name = document.querySelector('[name=name]')
-const email = document.querySelector('[name=email]')
-const contactForm = document.querySelector('.contactForm')
-const paymentForm = document.querySelector('.paymentForm')
-const confirmForm = document.querySelector('.confirmForm')
-const noOrder = document.querySelector('.noOrder')
-const hr = document.querySelectorAll('hr')
-const homePage = document.getElementById("homePage");
-
-import {getStatus} from "./auth.js";
+const name = document.querySelector('[name=name]');
+const email = document.querySelector('[name=email]');
+const phone = document.querySelector('[name=phone]');
+const contactForm = document.querySelector('.contactForm');
+const paymentForm = document.querySelector('.paymentForm');
+const confirmForm = document.querySelector('.confirmForm');
+const noOrder = document.querySelector('.noOrder');
+const hr = document.querySelectorAll('hr');
+const homePage = document.querySelector(".homePage");
+import {getStatus, goToHomePage} from "./auth.js";
+export {name, email, phone, amount, trip};
 
 getStatus(checkStatus)
 function checkStatus(elem){
@@ -18,6 +19,7 @@ function checkStatus(elem){
         memberName.innerText = elem.data.name;
         name.value = elem.data.name;
         email.value = elem.data.email;
+        getOrderInfor(checkOrder);
     }else{
         window.location.href = "/";
     }
@@ -28,33 +30,32 @@ function getOrderInfor(callback){
     fetch(url,{
         method : "GET",
     }).then(function(response){
-            return response.json();
+        return response.json();
     }).then(function(datas){
         callback(datas);
     })
 }
-getOrderInfor(checkOrder);
 
 function checkOrder(datas){
-    if(datas.data === null){
-        contactForm.style.display = "none";
-        paymentForm.style.display = "none";
-        confirmForm.style.display = "none";
-        noOrder.style.display = "block";
-        hr.forEach((elem)=> elem.style.display = "none")
-    }else{
+    if(datas.data !== null && datas.data[0].attraction){
         contactForm.style.display = "block";
         paymentForm.style.display = "block";
         confirmForm.style.display = "block";
         noOrder.style.display = "none";
         hr.forEach((elem)=> elem.style.display = "block")
         showCart(datas);
+    }else{
+        contactForm.style.display = "none";
+        paymentForm.style.display = "none";
+        confirmForm.style.display = "none";
+        noOrder.style.display = "block";
+        hr.forEach((elem)=> elem.style.display = "none")
     }
 }
 
-
+let amount = { "price" : 0 };
+let trip = [];
 function showCart(datas){
-    let amount = 0 
     let dataLength = datas.data.length;
     for(let i = 0; i < dataLength; i +=1){
         // item section
@@ -115,10 +116,13 @@ function showCart(datas){
         inforDiv.appendChild(deleteDiv);
         inforDiv.appendChild(ID);
         // update amount    
-        amount += datas.data[i].price;
+        amount.price += datas.data[i].price;
+        // keep order infor
+        let orderInfor = datas.data[i]
+        trip.push(orderInfor);
     }
     // 計算總價
-    confirmAmount.innerText = `總價：新台幣 ${amount} 元`
+    confirmAmount.innerText = `總價：新台幣 ${amount.price} 元`
     // 點擊垃圾桶刪除商品
     const attractionID = document.querySelectorAll(".attractionID")
     attractionID.forEach(id => {
@@ -132,10 +136,10 @@ function showCart(datas){
     })
 }
 
+
 // 回首頁
-homePage.addEventListener("click", ()=>{
-    window.location.href = "/";
-})
+homePage.addEventListener("click", goToHomePage)
+
 
 function deleteCart(elem){
     let attractionId = elem.target.textContent;

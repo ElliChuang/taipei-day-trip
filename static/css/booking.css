@@ -35,10 +35,10 @@ html, body{
     margin-bottom:40px;
     display: none;
 }
-.noOrder span{
+.homePage{
     cursor: pointer;
     font-weight: 800;
-    color: #556B2F;
+    color: #448899;
 }
 .section{
     width:988px;
@@ -133,7 +133,7 @@ hr{
     font-size: 16px;
     color: #666666;
 }
-.contactForm input, .paymentForm input{
+.contactForm input{
     width:200px;
     height:38px;
     padding:10px;
@@ -158,11 +158,32 @@ hr{
     background-position:center;
     background-size:cover;
 }
-.contactForm input:valid+.check, .paymentForm input:valid+.check{
+.contactForm input:valid+.check{
     display:inline-block;
 }
-.contactForm input:invalid+.check, .paymentForm input:invalid+.check{
+.contactForm input:invalid+.check{
     display:none;
+}
+.cardInfor{
+    display: flex;
+    align-items: center;
+    margin-bottom:15px;
+}
+.tpfield {
+    flex:none;
+    width:200px;
+    height:38px;
+    padding:10px;
+    border-radius:5px;
+    border: 1px solid #E8E8E8;
+    font-weight: 500;
+    font-size: 16px;
+}
+.tappay-field-focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 .confirmForm{
     max-width: 980px;
