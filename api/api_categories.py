@@ -31,20 +31,23 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(
 def categories():
 	try:
 		connection_object = connection_pool.get_connection()
-		mycursor = connection_object.cursor()
+		mycursor = connection_object.cursor(dictionary=True)
 		mycursor.execute("SELECT category FROM attraction GROUP BY category")
 		result = mycursor.fetchall()
 		categories = []
 		for i in result:
-			categories.append(i[0])
+			categories.append(i['category'])
 		return jsonify({
                         "data" : categories              
                     })		
-	except: 
+
+	except mysql.connector.Error as err:
+			print("error while select categories: {}".format(err))
 			return jsonify({
 						"error": True,
 						"data" : "INTERNAL_SERVER_ERROR",             
 					}),500	
+
 	finally:
 		mycursor.close()
 		connection_object.close()

@@ -110,7 +110,6 @@ function sumbitPrime(){
             }
         },
     };
-    console.log(requestBody);
     fetch(url,{
         method : "POST",
         headers : {"content-type" : "application/json"},
@@ -118,7 +117,6 @@ function sumbitPrime(){
     }).then(function(response){
             return response.json();
     }).then(function(datas){
-        console.log(datas);
         if (datas.error){
             showNoticeWindow("錯誤訊息", datas.data, closeNoticeWindow);
         }else if (datas.data.payment.message === "付款成功"){

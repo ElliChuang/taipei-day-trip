@@ -82,7 +82,6 @@ def attractions():
 					"images" : images      
 				}
 				datas.append(data)
-			print('datas:', len(datas))
 			return jsonify({
 						"nextpage" : None,
 						"data" : datas
@@ -105,13 +104,13 @@ def attractions():
 					"images" : images      
 				}
 				datas.append(data)
-			print('datas:', len(datas))
 			return jsonify({
 						"nextpage" : page + 1,
 						"data" : datas
 						})
 
-	except: 
+	except mysql.connector.Error as err:
+			print("error while select categories: {}".format(err))
 			return jsonify({
 						"error": True,
 						"data" : "INTERNAL_SERVER_ERROR",             
