@@ -6,7 +6,7 @@ let keyword = "";
 let page = 0;
 let isLoading = false;
 
-let options = {
+const options = {
     root: null,
     rootMargins: "0px",
     threshold: 0.5
@@ -82,16 +82,13 @@ function showData(datas){
         photoDiv.appendChild(img);
         // title
         let name = document.createTextNode(datas.data[i]['name']);
-        let text = name.cloneNode(true);
-        titleDiv.appendChild(text);
+        titleDiv.appendChild(name);
         // MRT
         let nameMrt = document.createTextNode(datas.data[i]['mrt']);
-        let textMrt = nameMrt.cloneNode(true);
-        mrtDiv.appendChild(textMrt);
+        mrtDiv.appendChild(nameMrt);
         // category
         let nameCategory = document.createTextNode(datas.data[i]['category']);
-        let textCategory = nameCategory.cloneNode(true);
-        categoryDiv.appendChild(textCategory);  
+        categoryDiv.appendChild(nameCategory);  
 
     }
     isLoading = false;
@@ -116,7 +113,7 @@ function removeDiv(){
     let subtitleDiv = document.querySelectorAll(".subtitle");
     let MRTDiv = document.querySelectorAll(".MRT");
     let categoryDiv = document.querySelectorAll(".category");
-    for (i=0; i < teamDiv.length; i +=1 ){
+    for (i = 0; i < teamDiv.length; i += 1){
         subtitleDiv[i].removeChild(MRTDiv[i]);
         subtitleDiv[i].removeChild(categoryDiv[i]);
         teamDiv[i].removeChild(subtitleDiv[i]);
@@ -137,13 +134,12 @@ fetch(categoryUrl).then(response => {
         throw new Error(`An error occurred:${response.status}`);
     }
 }).then(datas => {
-    for(i=0; i < datas.data.length; i += 1){
+    for(i = 0; i < datas.data.length; i += 1){
         let barDiv = document.createElement("div");
         searchBarList.appendChild(barDiv);
         barDiv.className = "searchBarTag";
         let category = document.createTextNode(datas.data[i]);
-        let textCategory = category.cloneNode(true);
-        barDiv.appendChild(textCategory);
+        barDiv.appendChild(category);
         barDiv.setAttribute("onclick", "select(this)");
     }
 }).catch((error) => console.log(error))
@@ -167,5 +163,5 @@ function show(elem){
 // 跳轉至指定景點介紹頁面 
 function showAttraction(elem){
     let id = elem.textContent;
-    document.location.href = "/attraction/" + id 
+    document.location.href = "/attraction/" + id;
 }

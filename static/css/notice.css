@@ -45,17 +45,6 @@
     font-size:24px;
     color:#666666;
 }
-.noticeClosed{
-    display:none;
-    position:absolute;
-    top:0;
-    right:0;
-    width:16px;
-    height:16px;
-    cursor:pointer;
-    border:0;
-    background-color:#FFFFFF;
-}
 .noticeMessage{
     text-align:center;
     font-weight:400;
@@ -74,4 +63,8 @@
     font-weight:400;
     color:#FFFFFF;
     margin-bottom:20px;
+    transition-duration: 0.2s;
+}
+.noticeEvent:hover{
+    box-shadow: 2px 2px 5px rgba(33,33,33); 
 }

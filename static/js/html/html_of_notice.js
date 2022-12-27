@@ -3,9 +3,6 @@ notice ='<div class="noticeWindowOuter">\
                 <div class="noticeHead"></div>\
                 <div class="noticeBody">\
                     <div class="noticeTitle">交易失敗</div>\
-                    <button type="submit" class="noticeClosed">\
-                        <img src="/static/image/icon_close.png">\
-                    </button>\
                     <div class="noticeMessage">信用卡付款失敗，請重新下單</div>\
                     <button class="noticeEvent">確定</button>\
                 </div>\

@@ -101,7 +101,8 @@ html, body{
     cursor:pointer;  
 }
 .searchBarTag:hover{
-    background-color:#E8E8E8;
+    background-color:rgba(232,232,232,0.5);
+    box-shadow: 0 0 5px rgba(33,33,33,0.3);
 }
 .main{
     width:1200px;

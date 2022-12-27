@@ -96,6 +96,10 @@
     font-weight:400;
     color:#FFFFFF;
     margin-bottom:10px;
+    transition-duration: 0.2s;
+}
+.form button:hover{
+    box-shadow: 2px 2px 5px rgba(33,33,33); 
 }
 .loginMessage, .signUpMessage{
     text-align:center;
@@ -116,7 +120,11 @@
     margin-bottom:15px;
 }
 .loginRemind span, .signupRemind span{
-    cursor:pointer;   
+    cursor:pointer; 
+    transition-duration: 0.2s;  
+}
+.loginRemind span:hover, .signupRemind span:hover{
+    color: black;  
 }
 .loginPassword{
     position:relative;

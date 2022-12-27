@@ -281,10 +281,13 @@ html, body{
     color:#FFFFFF;
     text-align: center;
     cursor:pointer;
+    transition-duration: 0.4s;
     display:flex;
     justify-content:center;
     align-items:center;
-
+}
+.submitToOrder:hover{
+    box-shadow: 3px 3px 8px rgba(33,33,33); 
 }
 .notice{
     display:flex;
