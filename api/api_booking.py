@@ -1,34 +1,17 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
 import os
 from dotenv import load_dotenv
 import jwt
 from datetime import datetime
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_booking = Blueprint("api_booking", __name__)
 
-load_dotenv()
-db_pw = os.environ.get("DB_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
-
 # 建立 token
+load_dotenv()
 token_pw = os.environ.get("TOKEN_PW")
 
 
@@ -45,7 +28,7 @@ def booking():
 			token = session["token"]
 			decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 			member_id = decode_data["id"]
-			connection_object = connection_pool.get_connection()
+			connection_object = DB.conn_obj()
 			mycursor = connection_object.cursor(dictionary=True)
 			query = ("""
 				SELECT 
@@ -121,7 +104,7 @@ def booking():
 			token = session["token"]
 			decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 			member_id = decode_data["id"]
-			connection_object = connection_pool.get_connection()
+			connection_object = DB.conn_obj()
 			mycursor = connection_object.cursor()
 			# 確認景點是否重複
 			query = ("SELECT attraction_id FROM cart WHERE member_id = %s AND attraction_id = %s")
@@ -170,7 +153,7 @@ def booking():
 			token = session["token"]
 			decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 			member_id = decode_data["id"]
-			connection_object = connection_pool.get_connection()
+			connection_object = DB.conn_obj()
 			mycursor = connection_object.cursor()
 			query = ("DELETE FROM cart WHERE member_id = %s AND attraction_id = %s")
 			mycursor.execute(query, (member_id, attraction_id))

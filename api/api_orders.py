@@ -1,7 +1,7 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
+# from mysql.connector import pooling 
 import os
 from dotenv import load_dotenv
 import jwt
@@ -9,29 +9,30 @@ from datetime import datetime
 import requests
 import random
 import json
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_orders = Blueprint("api_orders", __name__)
 
 load_dotenv()
-db_pw = os.environ.get("DB_PW")
+# db_pw = os.environ.get("DB_PW")
 token_pw = os.environ.get("TOKEN_PW")
 partner_key = os.environ.get("PARTNER_KEY")
 
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
+# # 建立db
+# dbconfig = {
+#     "user" : "root",
+#     "password" : db_pw,
+#     "host" : "localhost",
+#     "database" : "taipei_day_trip",
+# }
+# # create connection pool
+# connection_pool = mysql.connector.pooling.MySQLConnectionPool(
+#     pool_name = "taipei_pool",
+#     pool_size = 5,
+#     pool_reset_session = True,
+#     **dbconfig
+# )
 
 
 @api_orders.route("/api/orders", methods=["POST"])
@@ -63,7 +64,7 @@ def order():
 	member_id = decode_data["id"]
 	# 建立訂單：insert into orders table
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor()
 		orders_query = ("""
 			INSERT INTO orders (id, member_id, total_amount, status)
@@ -76,9 +77,9 @@ def order():
 	except mysql.connector.Error as err:
 			print("error while insert into orders table: {}".format(err))
 			return jsonify({
-				"error": True,
-				"data" : "INTERNAL_SERVER_ERROR",             
-			}),500
+						"error": True,
+						"data" : "INTERNAL_SERVER_ERROR",             
+					}),500
 
 	finally:
 		mycursor.close()
@@ -86,7 +87,7 @@ def order():
 	
 	# 建立訂單：insert into order_details table	
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor()
 		for i in trip:
 			attraction_id = i["attraction"]["id"]
@@ -110,9 +111,9 @@ def order():
 	except mysql.connector.Error as err:
 		print("error while insert into order_details table: {}".format(err))
 		return jsonify({
-			"error": True,
-			"data" : "INTERNAL_SERVER_ERROR",             
-		}),500
+					"error": True,
+					"data" : "INTERNAL_SERVER_ERROR",             
+				}),500
 
 	finally:
 		mycursor.close()
@@ -120,7 +121,7 @@ def order():
 
 	# 已成立的訂單，刪除 cart items
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor()
 		query = ("DELETE FROM cart WHERE member_id = %s")
 		mycursor.execute(query, (member_id,))
@@ -129,9 +130,9 @@ def order():
 	except mysql.connector.Error as err:
 		print("error while delete cart items: {}".format(err))
 		return jsonify({
-			"error": True,
-			"data" : "INTERNAL_SERVER_ERROR",             
-		}),500
+					"error": True,
+					"data" : "INTERNAL_SERVER_ERROR",             
+				}),500
 
 	finally:
 		mycursor.close()
@@ -161,7 +162,7 @@ def order():
 	result = response.json()
 	prime_status = result["status"]
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor()
 		if (prime_status != 0):
 			query = ("""
@@ -172,14 +173,14 @@ def order():
 			mycursor.execute(query, value)
 			connection_object.commit() 
 			return jsonify({
-				"data": {
-					"number": order_id,
-					"payment": {
-						"status": prime_status,
-						"message": "付款失敗"
+						"data": {
+							"number": order_id,
+							"payment": {
+								"status": prime_status,
+								"message": "付款失敗"
+								}
 						}
-				}
-			}),200
+					}),200
 
 		elif (prime_status == 0):
 			payment_query = ("""
@@ -198,21 +199,21 @@ def order():
 			mycursor.execute(orders_query, orders_value)
 			connection_object.commit() 
 			return jsonify({
-				"data": {
-					"number": order_id,
-					"payment": {
-						"status": prime_status,
-						"message": "付款成功"
+						"data": {
+							"number": order_id,
+							"payment": {
+								"status": prime_status,
+								"message": "付款成功"
+								}
 						}
-				}
-			}),200
+					}),200
 
 	except mysql.connector.Error as err:
 		print("error while insert into payment table: {}".format(err))
 		return jsonify({
-			"error": True,
-			"data" : "INTERNAL_SERVER_ERROR",             
-		}),500
+					"error": True,
+					"data" : "INTERNAL_SERVER_ERROR",             
+				}),500
 
 	finally:
 		mycursor.close()

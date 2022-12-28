@@ -1,38 +1,19 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
 import os
 from dotenv import load_dotenv
 import jwt
 import datetime
 from werkzeug.security import check_password_hash
+from model.database import DB 
 
 # 建立 Flask Blueprint
 api_user_auth = Blueprint("api_user_auth", __name__)
 
-load_dotenv()
-db_pw = os.environ.get("DB_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
-
 # 建立 token
+load_dotenv()
 token_pw = os.environ.get("TOKEN_PW")
-
-
 
 @api_user_auth.route("/api/user/auth", methods=["GET", "PUT", "DELETE"])
 def user_auth():
@@ -65,7 +46,7 @@ def user_auth():
 						"data" : "請輸入電子郵件及密碼",             
 					}),400
 		try:
-			connection_object = connection_pool.get_connection()
+			connection_object = DB.conn_obj()
 			mycursor = connection_object.cursor(dictionary=True)
 			query = ("SELECT id, name, email, password FROM member WHERE email = %s")
 			mycursor.execute(query, (email,))

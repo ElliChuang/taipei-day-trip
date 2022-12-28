@@ -144,7 +144,6 @@ homePage.addEventListener("click", goToHomePage)
 function deleteCart(elem){
     let attractionId = elem.target.textContent;
     let requestBody= {"attractionId" : attractionId}
-    console.log(requestBody);
     let url = "/api/booking";
     fetch(url,{
         method : "DELETE",

@@ -1,36 +1,16 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
-import os
-from dotenv import load_dotenv
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_attraction_id = Blueprint("api_attraction_id", __name__)
-
-load_dotenv()
-db_pw = os.environ.get("DB_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
 
 
 @api_attraction_id.route("/api/attraction/<int:attractionId>")
 def attractionId(attractionId):
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor(dictionary=True)
 		# response data
 		query = ("""

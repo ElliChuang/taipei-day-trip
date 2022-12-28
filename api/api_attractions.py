@@ -1,37 +1,17 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
-import os
-from dotenv import load_dotenv
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_attractions = Blueprint("api_attractions", __name__)
-
-load_dotenv()
-db_pw = os.environ.get("DB_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
 
 
 @api_attractions.route("/api/attractions")
 def attractions():
 	try:
 		keyword = request.args.get("keyword")
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor(dictionary=True)
 		limit = 13
 		page = int(request.args.get("page"))
@@ -62,7 +42,7 @@ def attractions():
 			return jsonify({
 						"error": True,
 						"data" : "REQUEST NOT FUND",             
-						}),400
+					}),400
 		
 		if len(results) < 13:
 			# response data
@@ -85,7 +65,7 @@ def attractions():
 			return jsonify({
 						"nextpage" : None,
 						"data" : datas
-						})
+					})
 		else:
 			# response data
 			datas = []
@@ -107,7 +87,7 @@ def attractions():
 			return jsonify({
 						"nextpage" : page + 1,
 						"data" : datas
-						})
+					})
 
 	except mysql.connector.Error as err:
 			print("error while select categories: {}".format(err))

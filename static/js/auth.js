@@ -23,7 +23,7 @@ const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
 export {loginOfNav, logoutOFNav, showLogin, getStatus, goToHomePage};
-import {showNoticeWindow} from "./notice.js";
+import {showNoticeWindow, closeNoticeWindow} from "./notice.js";
 
 // 關閉 登入／註冊 視窗
 loginClosed.addEventListener("click", closeView);
@@ -115,7 +115,7 @@ memberSignUp.addEventListener("click", ()=>{
         if(Data.ok){
             signUpMessage.innerText = "註冊成功";
             closeView();
-            showNoticeWindow("註冊成功", "點選確定，登入會員", showLogin);     
+            showNoticeWindow("註冊成功", "請登入會員", closeNoticeWindow);     
         }else{
             signUpMessage.innerText = Data.data;     
         }

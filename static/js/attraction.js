@@ -26,7 +26,6 @@ let slideIndex = 1;
 getData(showData)
 
 function getData(callback) {    
-    console.log("fetch some JSON data");
     fetch(`/api/attraction/${attractionId}`)
         .then((response) => {
             if(response.ok){
