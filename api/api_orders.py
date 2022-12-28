@@ -82,8 +82,9 @@ def order():
 					}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()
 	
 	# 建立訂單：insert into order_details table	
 	try:
@@ -116,8 +117,9 @@ def order():
 				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()
 
 	# 已成立的訂單，刪除 cart items
 	try:
@@ -135,8 +137,9 @@ def order():
 				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()
 
 	# 發 prime 給 TapPay 付款
 	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
@@ -216,5 +219,6 @@ def order():
 				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()

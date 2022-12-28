@@ -80,8 +80,9 @@ def booking():
 			}),500
 
 		finally:
-			mycursor.close()
-			connection_object.close()
+			if connection_object.is_connected():
+				mycursor.close()
+				connection_object.close()
 
 	# 建立預定行程
 	if request.method == "POST":
@@ -136,8 +137,9 @@ def booking():
 			}),500
 
 		finally:
-			mycursor.close()
-			connection_object.close()
+			if connection_object.is_connected():
+				mycursor.close()
+				connection_object.close()
 
 
 	# 刪除行程
@@ -167,5 +169,6 @@ def booking():
 						"data" : "INTERNAL_SERVER_ERROR",             
 					}),500
 		finally:
-			mycursor.close()
-			connection_object.close()
+			if connection_object.is_connected():
+				mycursor.close()
+				connection_object.close()

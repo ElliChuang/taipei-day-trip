@@ -46,5 +46,6 @@ def signup():
 				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()

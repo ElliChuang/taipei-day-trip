@@ -41,6 +41,8 @@ function showLogin(){
     outer.style.display = "block";
     signup.style.display = "none";
     login.style.display = "block";
+    // 隱藏密碼
+    hidePassword();
     // 清除input值
     loginEmail.value = ""; 
     loginPassword.value = "";
@@ -52,6 +54,8 @@ goSignUp.addEventListener("click", ()=>{
     outer.style.display = "block";
     signup.style.display = "block";
     login.style.display = "none";
+    // 隱藏密碼
+    hidePassword();
     // 清除input值
     signUpName.value = "";
     signUpEmail.value = "";
