@@ -7,6 +7,7 @@ from api.api_user_auth import api_user_auth
 from api.api_booking import api_booking
 from api.api_orders import api_orders
 from api.api_order_id import api_order_id
+from api.api_member import api_member
 import os
 
 
@@ -32,6 +33,9 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
+@app.route("/member")
+def member():
+	return render_template("member.html")
 
 
 # 註冊Flask Blueprint
@@ -43,5 +47,6 @@ app.register_blueprint(api_user_auth)
 app.register_blueprint(api_booking)
 app.register_blueprint(api_orders)
 app.register_blueprint(api_order_id)
+app.register_blueprint(api_member)
 
 app.run(host = '0.0.0.0', port = 3000)

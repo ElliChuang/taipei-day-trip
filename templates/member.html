@@ -1,0 +1,53 @@
+<!DOCTYPE html> 
+<html>
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8"/>   
+        <title>Taipei_memeber</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/member.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/login_signup.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/notice.css" />
+    </head>
+    <body>
+        <div class="content">
+            <script src="/static/js/html/html_of_nav.js"></script>
+            <div class="headline">您好，<span id="memberName"></span>，會員資料如下：</div>
+            <main class="main">
+                <div class="group">
+                    <h2 class="title">個人資料修改</h2>
+                    <div class="subgroup">
+                        <label class="subtitle">會員姓名</label>
+                        <input type="text" name="userName" required /><br/>
+                        <label class="subtitle">會員信箱</label>
+                        <input type="email" name="userEmail" required placeholder="example@gmail.com" />
+                        <br/>
+                        <button class="confirmToModify" id="inforButton">確定修改</button>
+                    </div>
+                </div>
+                <hr class="separate"/>
+                <div class="group">
+                    <h2 class="title">修改密碼</h2>
+                    <div class="subgroup">
+                        <label class="subtitle">舊密碼</label>
+                        <input type="password" name="userOldPassword" id="userOldPassword" required pattern="[A-Za-z0-9]{6,}" />
+                        <br/>
+                        <label class="subtitle">新密碼</label>
+                        <input type="password" name="userNewPassword" id="userNewPassword" required pattern="[A-Za-z0-9]{6,}" placeholder="請輸入至少６個英文字母、數字或符號"/>
+                        <br/>
+                        <label class="subtitle">確認新密碼</label>
+                        <input type="password" name="reUserNewPassword" id="reUserNewPassword" required pattern="[A-Za-z0-9]{6,}" />
+                        <br/>
+                        <button class="confirmToModify" id="passwordButton">確定修改</button>
+                    </div>
+                </div>
+            </main>
+        </div> 
+        <script src="/static/js/html/html_of_login_signup.js"></script> 
+        <script src="/static/js/html/html_of_notice.js"></script>  
+        <footer class="footer"></footer>
+        <script type="module" src="/static/js/member.js"></script>
+        <script type="module" src="/static/js/notice.js"></script>
+        <script type="module" src="/static/js/auth.js"></script>
+    </body>
+</html>

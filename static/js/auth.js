@@ -7,6 +7,11 @@ const goLogin = document.getElementById("goLogin");
 const goSignUp = document.getElementById("goSignUp");
 const loginOfNav = document.getElementById("loginOfNav");
 const logoutOFNav = document.getElementById("logoutOFNav");
+const navBarList = document.querySelector(".navBarList");
+const navBarListContent = document.querySelector(".navBarListContent");
+const listOfTitle = document.querySelector(".listOfTitle");
+const listOfMember = document.querySelector(".listOfMember");
+const listOfOrder = document.querySelector(".listOfOrder");
 const backToHomePage = document.getElementById("backToHomePage");
 const goToBookingPage = document.getElementById("goToBookingPage");
 const loginEmail = document.getElementById("loginEmail");
@@ -22,7 +27,7 @@ const loginPasswordShow = document.getElementById("loginPasswordShow");
 const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
-export {loginOfNav, logoutOFNav, showLogin, getStatus, goToHomePage};
+export {showLogin, getStatus, goToHomePage};
 import {showNoticeWindow, closeNoticeWindow} from "./notice.js";
 
 // 關閉 登入／註冊 視窗
@@ -64,8 +69,9 @@ goSignUp.addEventListener("click", ()=>{
 });
 
 
-// 點擊 nav title 回首頁
+// 點擊 nav title / ListOfTitle 回首頁
 backToHomePage.addEventListener("click", goToHomePage)
+listOfTitle.addEventListener("click", goToHomePage)
 function goToHomePage(){
     window.location.href = "/";
 }
@@ -74,11 +80,37 @@ function goToHomePage(){
 goToBookingPage.addEventListener("click", ()=>{
     if(loginOfNav.style.display === "none"){
         window.location.href = "/booking";
-    }else if(logoutOFNav.style.display === "none"){
+    }else if(navBarList.style.display === "none"){
         showLogin();
     }
 })
 
+// 點擊 nav 會員資料 跳轉 member 頁面
+listOfMember.addEventListener("click", ()=>{
+    if(loginOfNav.style.display === "none"){
+        window.location.href = "/member";
+    }else if(navBarList.style.display === "none"){
+        showLogin();
+    }
+})
+
+// 點擊 nav 訂單查詢 跳轉 order 頁面
+listOfOrder.addEventListener("click", ()=>{
+    if(loginOfNav.style.display === "none"){
+        window.location.href = "/order";
+    }else if(navBarList.style.display === "none"){
+        showLogin();
+    }
+})
+
+// 點擊 userList 顯示功能清單
+document.addEventListener("click", (elem) => {
+    if(elem.target.matches(".userList")){
+        navBarListContent.style.display = "block";
+    }else{
+        navBarListContent.style.display = "none";
+    }
+});  
 
 // 顯示密碼
 signUpPasswordHidden.addEventListener("click", showPassword)
@@ -143,10 +175,10 @@ getStatus(navOfLoginOrLogout);
 function navOfLoginOrLogout(elem){
     if(elem.data !== null && elem.data.id){
         loginOfNav.style.display = "none";
-        logoutOFNav.style.display = "block";
+        navBarList.style.display = "block";
     }else{
         loginOfNav.style.display = "block";
-        logoutOFNav.style.display = "none";
+        navBarList.style.display = "none";
     }
 }
 

@@ -46,7 +46,6 @@ html, body{
     width:988px;
     margin:auto;
     display:flex;
-    /* justify-content:flex-start; */
     margin-bottom:15px;
 }
 .picture{
@@ -78,7 +77,6 @@ html, body{
     flex:auto;
     margin-left:22px;
     position:relative;
-    /* z-index: 1; */
 }
 .title{
     width:700px;
