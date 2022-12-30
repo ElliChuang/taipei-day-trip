@@ -36,6 +36,9 @@ def thankyou():
 @app.route("/member")
 def member():
 	return render_template("member.html")
+@app.route("/order")
+def order():
+	return render_template("order.html")
 
 
 # 註冊Flask Blueprint

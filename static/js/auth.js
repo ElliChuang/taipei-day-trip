@@ -139,23 +139,28 @@ function hidePassword(){
 
 // 註冊會員
 memberSignUp.addEventListener("click", ()=>{
-    let url = "/api/user";
-    let requestBody = {"name" : signUpName.value, "email" : signUpEmail.value, "password" : signUpPassword.value};
-    fetch(url,{
-        method : "POST",
-        headers : {"content-type" : "application/json"},
-        body : JSON.stringify(requestBody)
-    }).then(function(response){
-            return response.json();
-    }).then(function(Data){
-        if(Data.ok){
-            signUpMessage.innerText = "註冊成功";
-            closeView();
-            showNoticeWindow("註冊成功", "請登入會員", closeNoticeWindow);     
-        }else{
-            signUpMessage.innerText = Data.data;     
-        }
-    })
+    if (!signUpName.validity.valid || !signUpEmail.validity.valid || !signUpPassword.validity.valid){
+        signUpMessage.innerText = "請輸入姓名、電子郵件及密碼或確認格式";
+    }else{
+        let url = "/api/user";
+        let requestBody = {"name" : signUpName.value, "email" : signUpEmail.value, "password" : signUpPassword.value};
+        fetch(url,{
+            method : "POST",
+            headers : {"content-type" : "application/json"},
+            body : JSON.stringify(requestBody)
+        }).then(function(response){
+                return response.json();
+        }).then(function(Data){
+            if(Data.ok){
+                signUpMessage.innerText = "註冊成功";
+                closeView();
+                showNoticeWindow("註冊成功", "請登入會員", closeNoticeWindow);     
+            }else{
+                signUpMessage.innerText = Data.data;     
+            }
+        })
+    }
+
 })
 
 // 取得會員狀態
@@ -189,23 +194,28 @@ function reLoadPage(){
 
 // 會員登入
 memberLogin.addEventListener("click", ()=>{
-    let url = "/api/user/auth";
-    let requestBody = {"email" : loginEmail.value, "password" : loginPassword.value};
-    fetch(url,{
-        method : "PUT",
-        headers : {"content-type" : "application/json"},
-        body : JSON.stringify(requestBody)
-    }).then(function(response){
-        return response.json();
-    }).then(function(Data){
-        console.log("會員登入:", Data);
-        if(Data.ok){
-            closeView();
-            showNoticeWindow("登入成功", "點選確定，繼續瀏覽景點", reLoadPage);
-        }else{
-            loginMessage.innerText = Data.data; 
-        } 
-    })     
+    if (!loginEmail.validity.valid || !loginPassword.validity.valid){
+        loginMessage.innerText = "請輸入電子郵件及密碼或確認格式";
+    }else{
+        let url = "/api/user/auth";
+        let requestBody = {"email" : loginEmail.value, "password" : loginPassword.value};
+        fetch(url,{
+            method : "PUT",
+            headers : {"content-type" : "application/json"},
+            body : JSON.stringify(requestBody)
+        }).then(function(response){
+            return response.json();
+        }).then(function(Data){
+            console.log("會員登入:", Data);
+            if(Data.ok){
+                closeView();
+                showNoticeWindow("登入成功", "點選確定，繼續瀏覽景點", reLoadPage);
+            }else{
+                loginMessage.innerText = Data.data; 
+            } 
+        })  
+    }
+   
 })
 
 // 會員登出

@@ -99,16 +99,6 @@
     border-bottom-left-radius:5px;
     border-bottom-right-radius:5px;
 }
-/* .item3{
-    flex:none;
-    font-size:16px;
-    font-weight:500;
-    color:#666666;
-    text-align:left;
-    padding:10px;
-    display:none;
-    cursor:pointer;
-} */
 
 @media(max-width:1200px){
     .left{

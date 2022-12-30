@@ -1,0 +1,163 @@
+*{
+    box-sizing: border-box;
+    font-family:"Noto Sans TC";
+    margin:0;
+    padding:0;
+}
+html, body{
+    height: 100%;
+    position:relative;
+}
+.content{
+    min-height: calc(100% - 104px);
+}
+.headline{
+    max-width: 980px;
+    height: 27px;
+    margin: auto;
+    font-weight: 700;
+    font-size: 19px;
+    color: #666666;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-left: 80px;
+}
+.noOrderHistory{
+    max-width: 980px;
+    margin: auto;
+    font-weight: 400;
+    font-size: 16px;
+    color: #666666;
+    display: none;
+}  
+.main{
+    max-width: 980px;
+    margin: auto;
+}
+.allPages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+}
+.Orders{
+    flex:none;
+    font-weight: 700;
+    font-size: 19px;
+    color: #666666;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.Detail{
+    flex:none;
+    font-weight: 700;
+    font-size: 19px;
+    color: #666666;
+    padding: 20px;
+    border-radius: 5px;
+}
+.Orders:hover{
+    background-color:rgba(232,232,232,0.5);
+}
+.currentPage{
+    color: #448899;
+}
+.table{
+    margin: auto;
+    border-collapse: collapse;
+}
+th, td{
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
+    border-bottom: 1px solid #DDD;
+}
+tr:hover{
+    background-color:rgba(232,232,232,0.5);
+}
+.checkDetail{
+    background: #448899;  
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    padding: 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.checkDetail:hover{
+    box-shadow: 3px 3px 8px rgba(33,33,33,0.5); 
+}
+.orderDetail{
+    max-width: 520px;
+    margin: auto;
+}
+.section{
+    display:flex;
+    margin-bottom:15px;
+}
+.picture{
+    flex:none;
+    width:250px;
+    height:200px;
+}
+.cartItemImage{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+    border:1px solid #E8E8E8;
+    border-radius: 5px;
+}
+.infor{
+    flex:auto;
+    margin-left:22px;
+}
+.title{
+    font-weight: 700;
+    font-size: 16px;
+    color: #448899;
+    margin-bottom:20px;
+}
+.message, .orderDetailId, .orderDetailTotalAmount{
+    width: 500px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #666666;
+    margin-bottom:10px;
+}
+.orderDetailTotalAmount{
+    margin-bottom: 20px;
+}
+.footer{
+    height:104px;
+    margin-top:75px;
+    background-image:url(/static/image/footer.png);
+    background-position:center;
+    background-size:cover;
+}
+@media(max-width:600px){
+    .headline, .main{
+        padding-left: 0;
+        width: 90%;
+    }
+    th, td{
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+    .checkDetail{
+        font-size: 12px;
+    }
+    .section{
+        display:block;
+    }
+    .picture{
+        width: 100%;
+        height: 256px;
+        margin: 28px 0px;
+    }
+    .infor{
+        margin-left: 0;
+    }
+}

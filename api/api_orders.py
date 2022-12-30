@@ -19,21 +19,6 @@ load_dotenv()
 token_pw = os.environ.get("TOKEN_PW")
 partner_key = os.environ.get("PARTNER_KEY")
 
-# # 建立db
-# dbconfig = {
-#     "user" : "root",
-#     "password" : db_pw,
-#     "host" : "localhost",
-#     "database" : "taipei_day_trip",
-# }
-# # create connection pool
-# connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-#     pool_name = "taipei_pool",
-#     pool_size = 5,
-#     pool_reset_session = True,
-#     **dbconfig
-# )
-
 
 @api_orders.route("/api/orders", methods=["POST"])
 def order():
@@ -217,6 +202,63 @@ def order():
 					"error": True,
 					"data" : "INTERNAL_SERVER_ERROR",             
 				}),500
+
+	finally:
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()
+
+
+@api_orders.route("/api/orders", methods=["GET"])
+def getOrders():
+	if "token" not in session:
+		return jsonify({
+					"error": True,
+					"data" : "請先登入會員",             
+				}),403
+	try:
+		token = session["token"]
+		decode_data = jwt.decode(token, token_pw, algorithms="HS256")
+		member_id = decode_data["id"]
+		connection_object = DB.conn_obj()
+		mycursor = connection_object.cursor(dictionary=True)
+		query = ("""
+			SELECT 
+				created_dt AS order_dt,	 
+				id AS order_id,
+				status,
+				total_amount AS price 
+			FROM orders
+			WHERE member_id = %s
+		""")
+		mycursor.execute(query, (member_id,))
+		results = mycursor.fetchall()
+		# 尚無預訂行程
+		if not results: 
+			return jsonify({"data" : None}),200
+		# respose data
+		datas = []
+		for item in results:
+			date = item["order_dt"].strftime('%Y-%m-%d') # 轉換 datetime.date格式
+			data = {
+					"order_dt" : date,
+					"order_id" : item["order_id"],
+					"status" : item["status"],
+					"price" : item["price"]
+				}
+			
+			datas.append(data)
+		print(datas)
+		return jsonify({
+					"data": datas
+				}),200
+	
+	except mysql.connector.Error as err:
+		print("Something went wrong: {}".format(err))
+		return jsonify({
+			"error": True,
+			"data" : "INTERNAL_SERVER_ERROR",             
+		}),500
 
 	finally:
 		if connection_object.is_connected():

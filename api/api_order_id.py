@@ -29,7 +29,6 @@ def getOrderNumber(orderNumber):
 		member_id = decode_data["id"]
 		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor(dictionary=True)
-		# 確認景點是否重複
 		query = ("""
 			SELECT 
 				d.attraction_id, 

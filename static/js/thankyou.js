@@ -21,16 +21,6 @@ homePage.addEventListener("click", goToHomePage);
 
 // 查詢訂單
 searchOrder.addEventListener("click", ()=>{
-    let url = "/api/order/" + id;
-    fetch(url,{
-        method : "GET",
-    }).then(function(response){
-        return response.json();
-    }).then(function(datas){
-        if (!datas.error && datas.data !== null){
-            window.location.href = "/api/order/" + id;
-        }
-    })
-    
+    window.location.href = "/order";
 })
 

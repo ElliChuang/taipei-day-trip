@@ -19,9 +19,6 @@ observer.observe(target);
 function Intersect(entries) {
     entries.forEach(entry =>{
         if (entry.isIntersecting && isLoading === false && page !== null){
-            // window.addEventListener("load", () => {
-            //     lds_default.style.display = "none";
-            // })
             getData(showData);
         }else if(!entry.isIntersecting && page === null){
             observer.unobserve(entry.target);

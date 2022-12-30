@@ -53,7 +53,9 @@ async function personalInfor(){
 
 passwordButton.addEventListener("click", modifyPassword)
 async function modifyPassword(){
-    if (userOldPassword.validity.valid && userNewPassword.validity.valid && reUserNewPassword.validity.valid){
+    if (!userOldPassword.validity.valid || !userNewPassword.validity.valid || !reUserNewPassword.validity.valid){
+        showNoticeWindow("錯誤訊息", "請輸入密碼，或密碼格式有誤", closeNoticeWindow);
+    }else{
         let url = "/api/member";
         let requestBody = {"password" : userOldPassword.value, "newPassword" : userNewPassword.value, "checkPassword" : reUserNewPassword.value}
         const res = await fetch(url,{
@@ -69,8 +71,6 @@ async function modifyPassword(){
         }else {
             showNoticeWindow("錯誤訊息", data.data, closeNoticeWindow);
         }
-    }else{
-        showNoticeWindow("錯誤訊息", "請輸入密碼，或密碼格式有誤", closeNoticeWindow);
     }
 
 
