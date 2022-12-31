@@ -12,6 +12,7 @@ html, body{
 }
 .order{
     margin:auto;
+    margin-top:40px;
     margin-bottom:40px;
 }
 .headline{
@@ -21,7 +22,6 @@ html, body{
     font-weight: 700;
     font-size: 19px;
     color: #666666;
-    margin-top:40px;
     margin-bottom:35px;
 }
 .noOrder{
@@ -37,14 +37,15 @@ html, body{
 }
 .homePage{
     cursor: pointer;
-    font-weight: 800;
     color: #448899;
+}
+.homePage:hover{
+    font-weight: 800; 
 }
 .section{
     width:988px;
     margin:auto;
     display:flex;
-    justify-content:flex-start;
     margin-bottom:15px;
 }
 .picture{
@@ -53,6 +54,9 @@ html, body{
     height:200px;
     margin:0 8px;
     position:relative
+}
+.picture:hover{
+    opacity:0.8; 
 }
 .cartItemId{
     width:250px;
@@ -73,7 +77,6 @@ html, body{
     flex:auto;
     margin-left:22px;
     position:relative;
-    z-index: 1;
 }
 .title{
     width:700px;
@@ -128,7 +131,7 @@ hr{
     color: #666666;
     margin-bottom: 24px;
 }
-.contactForm label, .paymentForm label{
+.subtitle{
     font-weight: 500;
     font-size: 16px;
     color: #666666;
@@ -151,7 +154,7 @@ hr{
     height: 24px;
 }
 .check{
-    vertical-align: middle; 
+    vertical-align: sub; 
     width: 22px;
     height: 22px;
     background-image: url(/static/image/checked.png);
@@ -192,24 +195,20 @@ hr{
     margin-top: 40px;
 }
 .confirmAmount{
-    display:flex;
-    justify-content:center;
-    align-items: center;
     width: 180px;
     height: 20px;
+    text-align: right;
+    line-height: 20px;
     font-weight: 700;
     font-size: 16px;    
     color: #666666;
     margin-left:auto;
-    padding: 3px 0 3px 17px;
 }
 .confirmButton{
-    display:flex;
-    justify-content:center;
-    align-items: center;
     width: 173px;
     height: 36px;
-    padding: 10px 20px;
+    text-align: center;
+    line-height: 36px;
     background: #448899;  
     border-radius: 5px;
     font-weight: 400;
@@ -218,6 +217,9 @@ hr{
     margin-top: 25px;
     margin-left:auto;
     cursor: pointer;
+}
+.confirmButton:hover{
+    box-shadow: 3px 3px 8px rgba(33,33,33); 
 }
 .footer{
     height: 104px;
@@ -230,7 +232,7 @@ hr{
     .order{
         width: 90%;
     }
-    .headline, .section{
+    .headline, .section, .noOrder{
         width: 100%;
     }
     .infor{

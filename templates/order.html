@@ -1,0 +1,47 @@
+<!DOCTYPE html> 
+<html>
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8"/>   
+        <title>Taipei_order</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/order.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/login_signup.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/notice.css" />
+    </head>
+    <body>
+        <div class="content">
+            <script src="/static/js/html/html_of_nav.js"></script>
+            <div class="headline">您好，<span id="memberName"></span>，您的訂購紀錄如下：</div>
+            <div class="noOrderHistory">無訂購紀錄</div>
+            <main class="main">
+                <div class="allPages">
+                    <div class="Orders currentPage" id="Orders">所有訂單</div>
+                    <div>|</div>
+                    <div class="Detail" id="Detail">訂單明細</div>
+                </div>
+                <div id="group">
+                    <table class="table">
+                        <tr>
+                            <th>訂購日期</th>
+                            <th>訂購編號</th>
+                            <th>付款狀態</th>
+                            <th>訂購金額</th>
+                            <th>訂單明細</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="orderDetail">
+                    <div class="orderDetailId"></div>
+                    <div class="orderDetailTotalAmount"></div>
+                </div>
+            </main>
+        </div> 
+        <script src="/static/js/html/html_of_login_signup.js"></script> 
+        <script src="/static/js/html/html_of_notice.js"></script>  
+        <footer class="footer"></footer>
+        <script type="module" src="/static/js/order.js"></script>
+        <script type="module" src="/static/js/notice.js"></script>
+        <script type="module" src="/static/js/auth.js"></script>
+    </body>
+</html>

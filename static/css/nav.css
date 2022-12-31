@@ -16,7 +16,6 @@
 .left{
     display:flex;
     flex:none;
-    /* width:150px; */
     font-size:30px;
     height:34px;
     color:#448899;
@@ -50,15 +49,55 @@
     padding:10px;
     cursor:pointer;
 }
-.item3{
+.navBarList{
     flex:none;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    width: 60px;
+    cursor:pointer;
+    position:relative;
+    display:none;
+}
+.userList{
+    width:30px;
+    height:30px;
+    vertical-align: sub;
+    background-image: url(/static/image/user-profile.png);
+    background-position:center;
+    background-size:cover;
+    opacity: 0.7;
+}
+.navBarListContent{
+    background-color: #FFFFFF;
+    position:absolute;
+    top:49px;
+    right:0;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(33,33,33,0.4);
+    display:none;
+}
+.navBarListContent li{
+    background-color: #FFFFFF;
+    width: 100px;
+    padding: 10px;
     font-size:16px;
     font-weight:500;
     color:#666666;
-    text-align:left;
-    padding:10px;
-    display:none;
+    text-align: center;
+    line-height: 23px;
     cursor:pointer;
+}
+.navBarListContent li:hover{
+    background-color:rgba(232,232,232,0.5);
+}
+.listOfTitle{
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+}
+.listOfLogout{
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
 }
 
 @media(max-width:1200px){

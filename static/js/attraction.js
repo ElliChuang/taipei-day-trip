@@ -12,6 +12,7 @@ const next = document.querySelector(".next");
 const morning = document.getElementById("morning");
 const afternoon = document.getElementById("afternoon");
 const submitToOrder = document.querySelector(".submitToOrder");
+const date = document.getElementById("date");
 import {getStatus, showLogin} from "./auth.js";
 import {showNoticeWindow, closeNoticeWindow} from "./notice.js"
 
@@ -25,7 +26,6 @@ let slideIndex = 1;
 getData(showData)
 
 function getData(callback) {    
-    console.log("fetch some JSON data");
     fetch(`/api/attraction/${attractionId}`)
         .then((response) => {
             if(response.ok){
@@ -128,6 +128,10 @@ function showSlides(n) {
     dot[slideIndex-1].className = "dotSlides";
   }
 
+// 限制日期
+const today = new Date().toISOString().split("T")[0];
+date.setAttribute("min", today);
+
 // 預定行程
 submitToOrder.addEventListener("click", ()=>{
     getStatus(checkStatus)
@@ -141,7 +145,6 @@ submitToOrder.addEventListener("click", ()=>{
 })
 
 function sendOrder(){
-    const date = document.getElementById("date").value;
     const inputs = document.querySelectorAll('[type=radio]')
     let time = "";
     let price = "";
@@ -159,7 +162,7 @@ function sendOrder(){
     const url = "/api/booking";
     const requestBody ={
         "attractionId" : attractionId,
-        "date" : date,
+        "date" : date.value,
         "time" : time,
         "price" : price,
     }

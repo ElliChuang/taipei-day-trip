@@ -42,7 +42,7 @@ function checkOrder(datas){
         paymentForm.style.display = "block";
         confirmForm.style.display = "block";
         noOrder.style.display = "none";
-        hr.forEach((elem)=> elem.style.display = "block")
+        hr.forEach((elem)=> elem.style.display = "block");
         showCart(datas);
     }else{
         contactForm.style.display = "none";
@@ -133,7 +133,7 @@ function showCart(datas){
     itemId.forEach(id => {
         id.addEventListener("click", (elem)=>{
             window.location.href = "/attraction/" + elem.target.textContent;})
-    })
+    })  
 }
 
 
@@ -144,7 +144,6 @@ homePage.addEventListener("click", goToHomePage)
 function deleteCart(elem){
     let attractionId = elem.target.textContent;
     let requestBody= {"attractionId" : attractionId}
-    console.log(requestBody);
     let url = "/api/booking";
     fetch(url,{
         method : "DELETE",

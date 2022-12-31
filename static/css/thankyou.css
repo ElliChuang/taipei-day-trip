@@ -41,10 +41,13 @@ html, body{
     margin-top: 10px;
 }
 .homePage, .searchOrder{
-    font-weight: 700;
+    font-weight: 500;
     font-size: 16px;
     cursor: pointer;
     color: #448899;
+}
+.homePage:hover, .searchOrder:hover{
+    font-weight: 800; 
 }
 .footer{
     height: 104px;

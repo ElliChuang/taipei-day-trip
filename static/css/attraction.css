@@ -17,8 +17,6 @@ html, body{
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     gap:30px;
-    align-items:center;
-    justify-content:center;
     padding-bottom:37px;
     margin-top:37px;
     border-bottom: 1px solid #E8E8E8;
@@ -66,13 +64,11 @@ html, body{
     margin:6px;
     background-color:#FFFFFF;
     border-radius:50%; 
-    cursor:pointer;
     position: relative;
 }
 .dotNumber{
     width:18px;
     height:18px;
-    background-color:#b91414;
     border-radius:50%; 
     cursor:pointer;
     position:absolute;
@@ -110,9 +106,6 @@ html, body{
 .name{
     width:600px;
     height:33px;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     font-size:24px;
     font-weight:700;
     color:#666666;
@@ -121,9 +114,6 @@ html, body{
 .categoryAndMrt{
     width:600px;
     height:22px;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     font-size:16px;
     font-weight:500;
     color:#666666;
@@ -145,9 +135,6 @@ html, body{
 .title{
     width:560px;
     height:22px;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     font-weight:700;
     font-size:16px;
     color:#666666;
@@ -155,9 +142,6 @@ html, body{
 .subtitle{
     width:560px;
     height:24px;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     font-weight:500;
     font-size:16px;
     color:#666666;
@@ -172,13 +156,10 @@ html, body{
     flex:none;
     width:81px;
     height:17px;
-    display:flex;
-    justify-content:flex-start;
     font-weight:700;
     font-size:16px;
     color:#666666;
     margin-bottom:9px;
-    text-align: center;
 }
 .bookdate input{
     width:193px;
@@ -188,7 +169,6 @@ html, body{
     color: #000000;
     padding:5px 10px 5px 10px;
     border: none;
-    display:flex;
 }
 .bookdate input[type='date']::-webkit-calendar-picker-indicator{
     width:24px;
@@ -198,7 +178,6 @@ html, body{
     display:flex;
     justify-content:flex-start;
     align-items:center;
-
 }
 .timeTitle{
     flex:none;
@@ -210,8 +189,6 @@ html, body{
 }
 .time label{
     position:relative;
-    cursor:pointer;
-    display:block;
     cursor: pointer;
 }
 .radio{
@@ -228,7 +205,6 @@ html, body{
     border:2px solid #ffffff;
     background-color:#FFFFFF;
     border-radius: 50%;
-    display:inline-block;
     position:absolute;
 }
 .time label input:checked + .circle{
@@ -245,7 +221,6 @@ html, body{
     justify-content:flex-start;
     align-items:center;
     margin-bottom:10px;
-    position:relative;
 }
 .expenseTitle{
     width:81px;
@@ -261,9 +236,7 @@ html, body{
     font-size:16px;
     color:#666666;
     text-align: center;
-    margin-left:86px;
-    position:absolute;
-    top:0px;
+    line-height: 14px;
 }
 .submit{
     display:flex;
@@ -274,17 +247,19 @@ html, body{
 .submitToOrder{
     width:154px;
     height:36px;
-    background: #448899;
+    background:#448899;
     border-radius: 5px;
     font-weight:400;
     font-size:19px;
     color:#FFFFFF;
-    text-align: center;
+    text-align:center;
+    line-height:36px;
     cursor:pointer;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
+    transition-duration:0.2s;
+    margin-bottom:32px;
+}
+.submitToOrder:hover{
+    box-shadow: 3px 3px 8px rgba(33,33,33); 
 }
 .notice{
     display:flex;
@@ -301,11 +276,8 @@ html, body{
     height:32px;
     font-weight:700;
     font-size:16px;
-    line-height:13px;
+    line-height:32px;
     color: #666666;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     margin-top:20px;
 }
 .address, .transport, .description{
@@ -314,9 +286,6 @@ html, body{
     font-size:16px;
     line-height:23px;
     color: #666666;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
     text-align:justify;
 }
 .footer{
@@ -355,10 +324,7 @@ html, body{
     .section{
         grid-template-columns:1fr;
         width:100%;
-        display:grid;
         gap:20px;
-        align-items:center;
-        justify-content:center;
         padding-bottom:40px;
         margin-top:0;
     }
@@ -367,11 +333,6 @@ html, body{
     }
     .main{
         padding-left:10px;
-        padding-right:10px;
-    }
-    .information{
-        width:100%;
-        padding-left:20px;
         padding-right:10px;
     }
 }

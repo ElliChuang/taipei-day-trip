@@ -1,31 +1,11 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
-import os
-from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_user = Blueprint("api_user", __name__)
-
-load_dotenv()
-db_pw = os.environ.get("DB_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
 
 
 @api_user.route("/api/user", methods=["POST"])
@@ -37,7 +17,7 @@ def signup():
 					"data" : "請輸入姓名、電子郵件及密碼",             
 				}),400
 	try:
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor()
 		query = ("SELECT email FROM member where email = %s")
 		mycursor.execute(query, (data["email"],))
@@ -61,10 +41,11 @@ def signup():
 	except mysql.connector.Error as err:
 		print("Something went wrong: {}".format(err))
 		return jsonify({
-			"error": True,
-			"data" : "INTERNAL_SERVER_ERROR",             
-		}),500
+					"error": True,
+					"data" : "INTERNAL_SERVER_ERROR",             
+				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()

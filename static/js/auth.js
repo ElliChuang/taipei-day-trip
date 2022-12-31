@@ -7,6 +7,11 @@ const goLogin = document.getElementById("goLogin");
 const goSignUp = document.getElementById("goSignUp");
 const loginOfNav = document.getElementById("loginOfNav");
 const logoutOFNav = document.getElementById("logoutOFNav");
+const navBarList = document.querySelector(".navBarList");
+const navBarListContent = document.querySelector(".navBarListContent");
+const listOfTitle = document.querySelector(".listOfTitle");
+const listOfMember = document.querySelector(".listOfMember");
+const listOfOrder = document.querySelector(".listOfOrder");
 const backToHomePage = document.getElementById("backToHomePage");
 const goToBookingPage = document.getElementById("goToBookingPage");
 const loginEmail = document.getElementById("loginEmail");
@@ -22,8 +27,8 @@ const loginPasswordShow = document.getElementById("loginPasswordShow");
 const loginPasswordHidden = document.getElementById("loginPasswordHidden");
 const signUpPasswordShow = document.getElementById("signUpPasswordShow");
 const signUpPasswordHidden = document.getElementById("signUpPasswordHidden");
-export {loginOfNav, logoutOFNav, showLogin, getStatus, goToHomePage};
-import {showNoticeWindow} from "./notice.js";
+export {showLogin, getStatus, goToHomePage};
+import {showNoticeWindow, closeNoticeWindow} from "./notice.js";
 
 // 關閉 登入／註冊 視窗
 loginClosed.addEventListener("click", closeView);
@@ -41,6 +46,8 @@ function showLogin(){
     outer.style.display = "block";
     signup.style.display = "none";
     login.style.display = "block";
+    // 隱藏密碼
+    hidePassword();
     // 清除input值
     loginEmail.value = ""; 
     loginPassword.value = "";
@@ -52,6 +59,8 @@ goSignUp.addEventListener("click", ()=>{
     outer.style.display = "block";
     signup.style.display = "block";
     login.style.display = "none";
+    // 隱藏密碼
+    hidePassword();
     // 清除input值
     signUpName.value = "";
     signUpEmail.value = "";
@@ -60,8 +69,9 @@ goSignUp.addEventListener("click", ()=>{
 });
 
 
-// 點擊 nav title 回首頁
+// 點擊 nav title / ListOfTitle 回首頁
 backToHomePage.addEventListener("click", goToHomePage)
+listOfTitle.addEventListener("click", goToHomePage)
 function goToHomePage(){
     window.location.href = "/";
 }
@@ -70,11 +80,37 @@ function goToHomePage(){
 goToBookingPage.addEventListener("click", ()=>{
     if(loginOfNav.style.display === "none"){
         window.location.href = "/booking";
-    }else if(logoutOFNav.style.display === "none"){
+    }else if(navBarList.style.display === "none"){
         showLogin();
     }
 })
 
+// 點擊 nav 會員資料 跳轉 member 頁面
+listOfMember.addEventListener("click", ()=>{
+    if(loginOfNav.style.display === "none"){
+        window.location.href = "/member";
+    }else if(navBarList.style.display === "none"){
+        showLogin();
+    }
+})
+
+// 點擊 nav 訂單查詢 跳轉 order 頁面
+listOfOrder.addEventListener("click", ()=>{
+    if(loginOfNav.style.display === "none"){
+        window.location.href = "/order";
+    }else if(navBarList.style.display === "none"){
+        showLogin();
+    }
+})
+
+// 點擊 userList 顯示功能清單
+document.addEventListener("click", (elem) => {
+    if(elem.target.matches(".userList")){
+        navBarListContent.style.display = "block";
+    }else{
+        navBarListContent.style.display = "none";
+    }
+});  
 
 // 顯示密碼
 signUpPasswordHidden.addEventListener("click", showPassword)
@@ -103,23 +139,28 @@ function hidePassword(){
 
 // 註冊會員
 memberSignUp.addEventListener("click", ()=>{
-    let url = "/api/user";
-    let requestBody = {"name" : signUpName.value, "email" : signUpEmail.value, "password" : signUpPassword.value};
-    fetch(url,{
-        method : "POST",
-        headers : {"content-type" : "application/json"},
-        body : JSON.stringify(requestBody)
-    }).then(function(response){
-            return response.json();
-    }).then(function(Data){
-        if(Data.ok){
-            signUpMessage.innerText = "註冊成功";
-            closeView();
-            showNoticeWindow("註冊成功", "點選確定，登入會員", showLogin);     
-        }else{
-            signUpMessage.innerText = Data.data;     
-        }
-    })
+    if (!signUpName.validity.valid || !signUpEmail.validity.valid || !signUpPassword.validity.valid){
+        signUpMessage.innerText = "請輸入姓名、電子郵件及密碼或確認格式";
+    }else{
+        let url = "/api/user";
+        let requestBody = {"name" : signUpName.value, "email" : signUpEmail.value, "password" : signUpPassword.value};
+        fetch(url,{
+            method : "POST",
+            headers : {"content-type" : "application/json"},
+            body : JSON.stringify(requestBody)
+        }).then(function(response){
+                return response.json();
+        }).then(function(Data){
+            if(Data.ok){
+                signUpMessage.innerText = "註冊成功";
+                closeView();
+                showNoticeWindow("註冊成功", "請登入會員", closeNoticeWindow);     
+            }else{
+                signUpMessage.innerText = Data.data;     
+            }
+        })
+    }
+
 })
 
 // 取得會員狀態
@@ -139,10 +180,10 @@ getStatus(navOfLoginOrLogout);
 function navOfLoginOrLogout(elem){
     if(elem.data !== null && elem.data.id){
         loginOfNav.style.display = "none";
-        logoutOFNav.style.display = "block";
+        navBarList.style.display = "block";
     }else{
         loginOfNav.style.display = "block";
-        logoutOFNav.style.display = "none";
+        navBarList.style.display = "none";
     }
 }
 
@@ -153,23 +194,28 @@ function reLoadPage(){
 
 // 會員登入
 memberLogin.addEventListener("click", ()=>{
-    let url = "/api/user/auth";
-    let requestBody = {"email" : loginEmail.value, "password" : loginPassword.value};
-    fetch(url,{
-        method : "PUT",
-        headers : {"content-type" : "application/json"},
-        body : JSON.stringify(requestBody)
-    }).then(function(response){
-        return response.json();
-    }).then(function(Data){
-        console.log("會員登入:", Data);
-        if(Data.ok){
-            closeView();
-            showNoticeWindow("登入成功", "點選確定，繼續瀏覽景點", reLoadPage);
-        }else{
-            loginMessage.innerText = Data.data; 
-        } 
-    })     
+    if (!loginEmail.validity.valid || !loginPassword.validity.valid){
+        loginMessage.innerText = "請輸入電子郵件及密碼或確認格式";
+    }else{
+        let url = "/api/user/auth";
+        let requestBody = {"email" : loginEmail.value, "password" : loginPassword.value};
+        fetch(url,{
+            method : "PUT",
+            headers : {"content-type" : "application/json"},
+            body : JSON.stringify(requestBody)
+        }).then(function(response){
+            return response.json();
+        }).then(function(Data){
+            console.log("會員登入:", Data);
+            if(Data.ok){
+                closeView();
+                showNoticeWindow("登入成功", "點選確定，繼續瀏覽景點", reLoadPage);
+            }else{
+                loginMessage.innerText = Data.data; 
+            } 
+        })  
+    }
+   
 })
 
 // 會員登出

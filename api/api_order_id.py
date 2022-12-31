@@ -1,34 +1,19 @@
 from flask import *
 from mysql.connector import errorcode
 import mysql.connector 
-from mysql.connector import pooling 
 import os
 from dotenv import load_dotenv
 import jwt
 from datetime import datetime
 import json
+from model.database import DB
 
 # 建立 Flask Blueprint
 api_order_id = Blueprint("api_order_id", __name__)
 
+# 建立 token
 load_dotenv()
-db_pw = os.environ.get("DB_PW")
 token_pw = os.environ.get("TOKEN_PW")
-
-# 建立db
-dbconfig = {
-    "user" : "root",
-    "password" : db_pw,
-    "host" : "localhost",
-    "database" : "taipei_day_trip",
-}
-# create connection pool
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name = "taipei_pool",
-    pool_size = 5,
-    pool_reset_session = True,
-    **dbconfig
-)
 
 
 @api_order_id.route("/api/order/<int:orderNumber>", methods=["GET"])
@@ -42,9 +27,8 @@ def getOrderNumber(orderNumber):
 		token = session["token"]
 		decode_data = jwt.decode(token, token_pw, algorithms="HS256")
 		member_id = decode_data["id"]
-		connection_object = connection_pool.get_connection()
+		connection_object = DB.conn_obj()
 		mycursor = connection_object.cursor(dictionary=True)
-		# 確認景點是否重複
 		query = ("""
 			SELECT 
 				d.attraction_id, 
@@ -121,5 +105,6 @@ def getOrderNumber(orderNumber):
 				}),500
 
 	finally:
-		mycursor.close()
-		connection_object.close()
+		if connection_object.is_connected():
+			mycursor.close()
+			connection_object.close()
