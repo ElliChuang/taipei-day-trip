@@ -23,7 +23,7 @@ Test **account** and **password** :
 
 - Memebr System and authentication with Json Web Token.
 - Shopping cart system.
-- Third party payment system with [Tappay](https://www.tappaysdk.com/zh/).
+- Third party payment system with [TapPay](https://www.tappaysdk.com/zh/).
 - Order history.
 - Keyword search for related attractions.
 - Infinite scroll/Lazy loading.
