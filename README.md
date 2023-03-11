@@ -2,7 +2,7 @@
 
 Taipei-day-trip is a travel e-commerce website that allow you to discover attractions and book one-day sightseeing tours in Taipei City.
 
-This is my first project built with vanilla javascript and flask in the [WeHelp boot camp](https://wehelp.tw/).
+This is my first project built with vanilla javascript and flask in the [WeHelp Bootcamp](https://wehelp.tw/).
 
 Test **account** and **password** :
 
@@ -21,12 +21,12 @@ Test **account** and **password** :
 
 ## Main Features
 
-- Memebr System and authentication with Json Web Token.
+- Memebr System and authentication with JSON Web Token.
 - Shopping cart system.
 - Third party payment system with [TapPay](https://www.tappaysdk.com/zh/).
 - Order history.
 - Keyword search for related attractions.
-- Infinite scroll/Lazy loading.
+- Infinite scroll / Lazy loading.
 - Image carousel.
 - Responsive Web Design.
 
@@ -39,7 +39,7 @@ Test **account** and **password** :
 ### AWS Cloud Service
  - EC2
 ### Third Party Library
- - Tappay
+ - TapPay
 ### Version Control
  - Git / GitHub
 
